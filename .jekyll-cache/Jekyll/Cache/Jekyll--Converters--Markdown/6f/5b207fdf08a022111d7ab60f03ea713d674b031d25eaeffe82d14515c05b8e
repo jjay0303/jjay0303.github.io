@@ -1,0 +1,3 @@
+I"�<p>PreparedStatement의 set메소드도 직접 수행해야함
+=&gt; 즉 select문의 결과값을 수작업으로 담아야함</p>
+:ET
