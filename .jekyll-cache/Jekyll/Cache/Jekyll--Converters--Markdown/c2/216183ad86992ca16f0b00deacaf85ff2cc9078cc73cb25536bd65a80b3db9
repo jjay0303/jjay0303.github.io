@@ -1,4 +1,4 @@
-I"�<style>
+I"�<style>
 	h3, table th{
 		background-color:#D2D2FF;
 		color: gray;
@@ -30,9 +30,9 @@
 			<td>내부적으로 PreparedStatement 처리</td>
 		</tr>
 		<tr align="center">
-			<td>PreparedStatement의 set메소드도 직접 수행해야함
+			<td>PreparedStatement의 set메소드도 직접 수행
 				=&gt; 즉 select문의 결과값을 수작업으로 담아야함</td>
-			<td>#{}로 mapper에서 결과값을 바로 setter처리해서 반환
+			<td>#{}로 mapper에서 결과값을 바로 setter처리후 반환
 				=&gt; select문의 결과값을 필요한 객체나 List로 바로 반환 가능</td>
 		</tr>
 	</table>
@@ -73,9 +73,11 @@
 <code class="language-plaintext highlighter-rouge">InputStream stream = Resources.getResourceAsStream(resource)</code><br /></p>
 
 <p>(2) SqlSessionFactoryBuilder -&gt; SqlSessionFactory -&gt; SqlSession 생성<br />
-<code class="language-plaintext highlighter-rouge">SqulSession sqlSession = new SqlSessionFactoryBuilder().build(stream).openSession(false)</code>
--openSession() : 자동커밋 여부 / 기본값 false 
+<code class="language-plaintext highlighter-rouge">SqulSession sqlSession = new SqlSessionFactoryBuilder().build(stream).openSession(false)</code></p>
+<ul>
+  <li>openSession() : 자동커밋 여부 / 기본값 false 
 <br />
-<br /></p>
+<br /></li>
+</ul>
 
 :ET
