@@ -19,7 +19,7 @@ comments: true
 </style>
 
 
-<h1>JSP Action Tag</h1>
+<h2>JSP Action Tag</h2>
 XML기술을 이용하여 기존 JSP문법을 확장시키는 기능을 제공하는 태그<br>
 
 

@@ -1,0 +1,74 @@
+I"�
+<style>
+	h3{
+		background-color:#D2D2FF;
+		color: gray;
+	}
+</style>
+
+<h1> Interpreter vs Compiler </h1>
+<p><br /></p>
+<h3>1. 인터프리터 방식</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;p&gt;
+- 런타임 이후에 줄 단위로 해석하여 프로그램을 구동하는 방식&lt;br&gt;
+- 언어를 중간 형태로 변환한 후 실행함&lt;br&gt;
+- 런타임에 코드를 직접 구동하므로 코드 수정과 디버깅이 바로 반영됨&lt;br&gt;
+&lt;/p&gt; &lt;br&gt;
+</code></pre></div></div>
+<h3>2. 컴파일 방식</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;p&gt;
+- 프로그래밍 언어를 Runtime 이전에 기계어로 해석하여 작업하는 방식&lt;br&gt;
+- 컴파일 후 바로 기계어로 전환되므로 OS와 빌드 환경에 종속적임&lt;br&gt;
+&lt;/p&gt; &lt;br&gt;
+</code></pre></div></div>
+<h3>3.비교</h3>
+<table>
+	<tr align="center">
+		<th>구분</th>
+		<th>인터프리터 방식</th>
+		<th>컴파일 방식</th>
+	</tr>
+	<tr align="center">
+		<th>수행방식</th>
+		<td>코드를 한줄 씩 읽어서 바로 실행</td>
+		<td>전체 코드를 읽은 뒤 기계어로 변환</td>
+	</tr>
+	<tr align="center">
+		<th>실행 속도</th>
+		<td>느림</td>
+		<td>빠름</td>
+	</tr>
+	<tr align="center">
+		<th>편의성</th>
+		<td>코드 수정이 바로 반영되므로 더 편리함</td>
+		<td>코드 수정하면 컴파일을 다시 해야하므로 불편함</td>
+	</tr>
+	<tr align="center">
+		<th>보안</th>
+		<td>코드 유출 가능성이 있어 보안에 취약</td>
+		<td>코드 유출 가능성은 적어 보안 높음</td>
+	</tr>
+	<tr align="center">
+		<th>프로그래밍 언어</th>
+		<td>JavasScript, Python 등</td>
+		<td>C, C++</td>
+	</tr>
+</table>
+<p><br /></p>
+
+<blockquote>
+  <p>❓Java : 자바는 컴파일러+인터프리터 모두 사용한다. 
+	컴파일러는 java 코드를 바이트코드로 이루어진.class 파일로 변환하는데 이렇게 컴파일만 사용 시 하드웨어 제어에는 효과적이나 종속성이 높아진다. 
+	이때 인터프리터를 이용해 .class의 바이트코드를 특정 환경의 기계에서 실행할 수 있도록 변환한다.
+	즉, 자바+자바 바이트 코드를 동시에 사용하여 플랫폼에 독립적인 인터프리터 의 장점과 바이트코드로 보안성을 높힌 컴파일러의 장점을 둘 다 수용한 것이다.</p>
+</blockquote>
+
+<p><br /></p>
+
+<h4>출처</h4>
+<ul>
+  <li>https://velog.io/@jaeyunn_15/OS-Compiler-vs-Interpreter</li>
+  <li>https://opensourceforgeeks.blogspot.com/2013/03/difference-between-compiler-interpreter.html</li>
+</ul>
+
+:ET

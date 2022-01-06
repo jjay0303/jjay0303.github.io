@@ -1,0 +1,111 @@
+I"3<style>
+	h3{
+		background-color:#D2D2FF;
+		color: gray;
+	}
+</style>
+
+<h3>1. JavaScript</h3>
+
+<ul>
+  <li>웹에서 가장 많이 쓰이는 <code class="language-plaintext highlighter-rouge">인터프리터방식</code> 스크립트 언어로 웹의 동작을 구현한다.</li>
+  <li>역할
+    <ul>
+      <li>HTML 페이지 변경 및 엘리먼트 추가, 제거</li>
+      <li>CSS와 HTML 엘리먼트의 스타일 변경</li>
+      <li>마수스나 키보드 이벤트에 대한 스크립트 실행</li>
+      <li>AJAX를 이용한 웹 서버 통신</li>
+      <li>기타 동적 효과 등등</li>
+    </ul>
+  </li>
+  <li>자바와 비교</li>
+</ul>
+<table>
+	<tr align="center">
+		<th>JavaScript</th>
+		<th>Java</th>
+	</tr>
+	<tr align="center">
+		<td>OOP 스크립팅 언어</td>
+		<td>OOP 프로그래밍 언어</td>
+	</tr>
+	<tr align="center">
+		<td>코드가 모두 텍스트</td>
+		<td>컴파일 필요</td>
+	</tr>
+	<tr align="center">
+		<td>HTML과 CSS가 있어야 실행(의존적)</td>
+		<td>다양한 OS에서 실행 가능한 독립적인 언어</td>
+	</tr>
+	<tr align="center">
+		<td>자료형 선언 불필요</td>
+		<td>자료형 선언 필수</td>
+	</tr>
+	<tr align="center">
+		<td>생성자 정의 필요</td>
+		<td>생성자 정의 불필요</td>
+	</tr>
+</table>
+<p><br /></p>
+
+<h3>2. 장단점</h3>
+
+<ul>
+  <li>장점 : 컴파일을 하지 않아 속도가 빠르고 구조가 단순하여 배우기 쉬움. 웹에 특화된 기술이므로 종속성이 낮고 확장성 높음</li>
+  <li>단점 : 개발도구가 적고 기능이 제한적임. html 소스코드에 같이 작성시 코드가 노출되어 보안에 취약함
+<br /></li>
+</ul>
+
+<h3>3. 사용법</h3>
+
+<ol>
+  <li>inline(인라인) : 태그 내에 간단 소스코드를 작성해서 실행
+<code class="language-plaintext highlighter-rouge">&lt;태그 on이벤트명="해당요소에 해당이벤트 발생시 실행할 소스코드 | 함수명();"&gt;</code></li>
+  <li>internal(내부) : html 문서내에(head, body 상관없음) script 태그 기술하여 그 영역안에 소스코드를 작성</li>
+  <li>external(외부) : 별도의 .js 파일로 소스코드를 작성하고 html문서 내에 <code class="language-plaintext highlighter-rouge">&lt;script src="경로"&gt;</code> 표기 후 사용</li>
+</ol>
+
+<p><br /></p>
+
+<h3>4. Window, DOM, BOM이란</h3>
+
+<ol>
+  <li>window 객체
+    <ul>
+      <li>자바스크립트의 최상위객체이자 전역객체로 크게 DOM과 BOM으로 나뉨</li>
+      <li>개발자 도구에서 window우 출력 시 window객체를 이루는 구성 요소들을 볼 수 있는데 자바스크립트는 이 객체들을 제어함으로써 웹 브라우저를 제어하는 것</li>
+    </ul>
+    <figure>
+<img src="https://user-images.githubusercontent.com/93863500/148331222-63bdab9f-b7cf-4ec8-a22a-452cbee01560.JPG" width="100%" height="100%" align="center" />
+</figure>
+    <p><br /></p>
+  </li>
+  <li>DOM(Document Object Model)
+    <ul>
+      <li>브라우저가 웹문서를 이해할 수 있도록 요소들의 관계를 트리 구조로 구성한 것</li>
+      <li>
+        <p>HTML의 각 요소들을 노드(Node)라고 하며 주로 쓰이는 노드에는 4종류가 있다.</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align: right"> </th>
+              <th style="text-align: left">|</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: right">문서노드</td>
+              <td style="text-align: left">트리의 최상위, 시작점으로 각 하위요소들에 접근 시 문서 노드를 통해야 함</td>
+            </tr>
+            <tr>
+              <td style="text-align: right">Apple</td>
+              <td style="text-align: left">Banana</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+    </ul>
+  </li>
+</ol>
+:ET
