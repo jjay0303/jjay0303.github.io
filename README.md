@@ -1,6 +1,6 @@
-Welcome my Blog :smile:
+## Welcome my Blog :smile:
 
-##Junior Developer
+## Junior Developer
 
 ## Features
 * studying in KH Academy

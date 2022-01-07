@@ -1,0 +1,394 @@
+I"�`<style>
+	h3{
+		background-color:#D2D2FF;
+		color: gray;
+	}
+</style>
+
+<h3>1. 변수와 자료형</h3>
+
+<ul>
+  <li>자바스크립트에는 <code class="language-plaintext highlighter-rouge">var</code>, <code class="language-plaintext highlighter-rouge">let</code>, <code class="language-plaintext highlighter-rouge">const</code>로 변수를 선언한다</li>
+  <li>
+    <p>각 선언 방식 비교</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: center">항목</th>
+          <th style="text-align: center">var</th>
+          <th style="text-align: center">let</th>
+          <th style="text-align: center">const</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: center">중복선언</td>
+          <td style="text-align: center">O</td>
+          <td style="text-align: center">X</td>
+          <td style="text-align: center">X</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">재할당</td>
+          <td style="text-align: center">O</td>
+          <td style="text-align: center">O</td>
+          <td style="text-align: center">X</td>
+        </tr>
+        <tr>
+          <td style="text-align: center">스코프</td>
+          <td style="text-align: center">선언된 함수 영역 전체</td>
+          <td style="text-align: center">블럭{ } 내</td>
+          <td style="text-align: center">블럭{ } 내</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ul>
+
+<ol>
+  <li>전역변수와 지역변수
+    <ul>
+      <li>변수 선언 위치에 따라 전역변수와 지역변수로 나뉨</li>
+      <li>전역변수
+        <ul>
+          <li>특정 함수 영역 밖에 선언된 변수로 어디든 다 사용 가능</li>
+          <li>전역변수와 지역변수 이름이 같을 때 함수 내에서 전역변수 접근시 <code class="language-plaintext highlighter-rouge">window.</code> 또는 <code class="language-plaintext highlighter-rouge">this.</code> 으로 접근</li>
+        </ul>
+      </li>
+      <li>지역변수
+        <ul>
+          <li>특정 함수 내에 선언된 변수로 함수 내에서는 기본적으로 지역변수 우선</li>
+          <li>특정 함수 내에 var, let, const 사용하지 않고 선언된 변수는 전역변수로 잡힘<br />
+<br /></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>자료형
+    <ul>
+      <li>자바스크립트에서는 변수 선언시 자료형을 별도로 지정하지 않음</li>
+      <li>변수에 대입되는 값(리터럴)에 따라서 알아서 자료형이 결정됨</li>
+      <li>
+        <dl>
+          <dt>자바스크립트의 자료형</dt>
+          <dd>String, number, boolean, object(객체), function, null, undefined</dd>
+        </dl>
+
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align: center">undefined</th>
+              <th style="text-align: center">null</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: center">타입이 정해지지 않음</td>
+              <td style="text-align: center">object타입</td>
+            </tr>
+            <tr>
+              <td style="text-align: center">초기화X인 변수나 존재하지 않는 값 접근 시 반환</td>
+              <td style="text-align: center">값만 정해지지 않음</td>
+            </tr>
+            <tr>
+              <td style="text-align: center">의미는 같지만 두 값이 일치하지는 않음 |</td>
+              <td style="text-align: center"> </td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h3>2. 연산자</h3>
+
+<ul>
+  <li>산술 / 대입 / 증감 / 비교 / 논리 / 비트 등등의 연산자를 제공함</li>
+</ul>
+
+<ol>
+  <li>산술연산자 : +,-,/,*,%</li>
+  <li>대입연산자 : =, +=, -=, *=, /=, %=</li>
+  <li>증감연산자 : ++x, –x, x++, x–</li>
+  <li>비교연산자 : ==, ===, !=, !==, &gt;, &gt;=, &lt;, &lt;=
+    <blockquote>
+      <p>==과 ===의 차이 
+    : ==은 equal, 동등연산자로 타입이 달라도 값이 같으면 true
+    : ===은 strict equal, 일치연산자로 타입이 같고 값도 같아야 true</p>
+    </blockquote>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>논리연산자 : &amp;&amp;, |</td>
+          <td>, !</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>비트연산자 : &amp;,</td>
+          <td>, ^, ~, «, », »&gt;</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ol>
+
+<ul>
+  <li>연산자의 우선 순위</li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">우선순위</th>
+      <th style="text-align: center">기능</th>
+      <th style="text-align: center">연산자</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">괄호</td>
+      <td style="text-align: center">()</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">2</td>
+      <td style="text-align: center">증감/논리</td>
+      <td style="text-align: center">++ – !</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">3</td>
+      <td style="text-align: center">산술연산자</td>
+      <td style="text-align: center">* / % +-</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">4</td>
+      <td style="text-align: center">비트연산자</td>
+      <td style="text-align: center">« » »&gt;</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">5</td>
+      <td style="text-align: center">비교연산자</td>
+      <td style="text-align: center">&lt; &lt;= &gt; &gt;=</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">6</td>
+      <td style="text-align: center">비교연산자</td>
+      <td style="text-align: center">== === != !==</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">7</td>
+      <td style="text-align: center">비트연산자</td>
+      <td style="text-align: center">&amp; ^ |’</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">8</td>
+      <td style="text-align: center">논리연산자|</td>
+      <td style="text-align: center"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: center">9</td>
+      <td style="text-align: center">삼항연산자</td>
+      <td style="text-align: center">?:</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">10</td>
+      <td style="text-align: center">대입연산자</td>
+      <td style="text-align: center">=, +=, -=, *=, /=, %=</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* 더 자세한 연산자 우선순위표는 구글링 요망...^^ &lt;br&gt;
+</code></pre></div></div>
+
+<h3>3. 제어문</h3>
+
+<ol>
+  <li>조건문
+    <ul>
+      <li>주어진 식의 결과에 따라 각각 명령을 수행하도록 제어하는 실행문</li>
+      <li>if, if/else, if/else if/else, switch</li>
+    </ul>
+  </li>
+  <li>반복문
+    <ul>
+      <li>프로그램 내에서 일정 횟수만큼 코드를 반복수행하도록 제어하는 실행문</li>
+      <li>while, do/while, for, for/in, for/of</li>
+      <li>
+        <dl>
+          <dt>for/in</dt>
+          <dd>해당 객체에서 열거 가능한 프로퍼티를 순회할 수 있게 하는 제어문
+            <pre><code class="language-javaScript">  var arr = [1,2,3];
+  for (var i in arr){
+      document.write(i + " ");
+  }
+  // 배열의 모든 인덱스를 출력하는 일반적인 for문과 같은 결과 반환
+</code></pre>
+            <p><br /></p>
+          </dd>
+        </dl>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h3>4. 배열</h3>
+
+<ol>
+  <li>자바스크립트에서의 배열 특징
+    <ul>
+      <li>타입이 고정되있지 않아 같은 배열의 요소들끼리도 타입이 다를 수 있음</li>
+      <li>인덱스가 연속적이지 않아도 됨 =&gt; 중간에 비어 있을 수 있음</li>
+      <li>Array 객체로 다뤄짐</li>
+    </ul>
+  </li>
+  <li>배열의 생성
+    <ul>
+      <li>리터럴 이용 : <code class="language-plaintext highlighter-rouge">var arr = [1,2,3];</code></li>
+      <li>생성자 이용 : <code class="language-plaintext highlighter-rouge">var arr = Array(1,2,3);</code></li>
+      <li>new 연산자 이용 : <code class="language-plaintext highlighter-rouge">var arr = new Array(1,2,3);</code></li>
+    </ul>
+  </li>
+  <li>배열 요소 추가
+    <ul>
+      <li>push()메소드 이용 : arr.push(추가할요소)  =&gt; 배열 마지막에 추가됨</li>
+      <li>length 프로퍼티 이용 : arr[arr.length] = 추가할요소   =&gt; 배열 마지막에 추가됨</li>
+      <li>특정인덱스지정 : arr[인덱스] = 추가할요소</li>
+    </ul>
+
+    <pre><code class="language-javaScript">    var arr = [1, "coffee", 100]
+    arr.push("cake");
+    arr[arr.length] = 33;
+    arr[7] = "맛있겠다";
+    document.write(arr + "&lt;br&gt;");
+    document.write(arr[10]);
+</code></pre>
+  </li>
+</ol>
+
+<h3>5. 함수</h3>
+
+<ul>
+  <li>표현식
+    <pre><code class="language-javaScript">function 함수명(매개변수){
+    실행할 코드;
+    [return 리턴값;]
+}
+</code></pre>
+    <p><br /></p>
+  </li>
+</ul>
+
+<h3>6. 요소 접근</h3>
+
+<ol>
+  <li>아이디 이용 : <code class="language-plaintext highlighter-rouge">document.getElementById("아이디명")</code>
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="dl">"</span><span class="s2">area1</span><span class="dl">"</span> <span class="kd">class</span><span class="o">=</span><span class="dl">"</span><span class="s2">area</span><span class="dl">"</span><span class="o">&gt;&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="nx">button</span> <span class="nx">onclick</span><span class="o">=</span><span class="dl">"</span><span class="s2">accessId();</span><span class="dl">"</span><span class="o">&gt;</span><span class="nx">아이디</span><span class="o">&lt;</span><span class="sr">/button</span><span class="err">&gt;
+</span>
+<span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+    <span class="kd">function</span> <span class="nx">accessId</span><span class="p">(){</span>
+        <span class="kd">var</span> <span class="nx">area1</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">area1</span><span class="dl">"</span><span class="p">);</span>
+        <span class="nx">area1</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">+=</span> <span class="dl">"</span><span class="s2">아이디로 접근성공! &lt;br&gt;</span><span class="dl">"</span><span class="p">;</span>   
+
+        <span class="nx">area1</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">backgroundColor</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">black</span><span class="dl">"</span><span class="p">;</span>
+        <span class="nx">area1</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">color</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">pink</span><span class="dl">"</span><span class="p">;</span>
+        <span class="nx">area1</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">width</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">150px</span><span class="dl">"</span><span class="p">;</span>
+        <span class="nx">area1</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">150px</span><span class="dl">"</span><span class="p">;</span>
+
+    <span class="p">}</span>
+<span class="o">&lt;</span><span class="sr">/script</span><span class="err">&gt;
+</span></code></pre></div>    </div>
+    <p><img src="https://user-images.githubusercontent.com/93863500/148339443-92b669de-7326-406b-b3ff-c47d44297721.JPG" width="100%" height="100%" align="center" />
+ <br /></p>
+  </li>
+  <li>태그명 이용 : <code class="language-plaintext highlighter-rouge">document.getElementsByTagName("태그명")</code> =&gt; 선택된 요소 객체들 배열로 반환
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">ul</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;</span><span class="mi">1</span><span class="o">&lt;</span><span class="sr">/li</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;</span><span class="mi">2</span><span class="o">&lt;</span><span class="sr">/li</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;</span><span class="mi">3</span><span class="o">&lt;</span><span class="sr">/li</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="sr">/ul</span><span class="err">&gt;
+</span>
+<span class="o">&lt;</span><span class="nx">button</span> <span class="nx">onclick</span><span class="o">=</span><span class="dl">"</span><span class="s2">accessTagName();</span><span class="dl">"</span><span class="o">&gt;</span><span class="nx">태그명으로</span> <span class="nx">접근</span><span class="o">&lt;</span><span class="sr">/button</span><span class="err">&gt;
+</span>
+<span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+    <span class="kd">function</span> <span class="nx">accessTagName</span><span class="p">(){</span>
+
+        <span class="kd">var</span> <span class="nx">list</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="dl">"</span><span class="s2">li</span><span class="dl">"</span><span class="p">);</span>    
+        <span class="kd">var</span> <span class="nx">blueColor</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">list</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="nx">list</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">하이욤</span><span class="dl">"</span><span class="p">;</span>
+            <span class="nx">list</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">style</span><span class="p">.</span><span class="nx">backgroundColor</span><span class="o">=</span><span class="dl">"</span><span class="s2">rgb(130, 220, </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">blueColor</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">)</span><span class="dl">"</span><span class="p">;</span>
+            <span class="nx">blueColor</span> <span class="o">+=</span> <span class="mi">100</span><span class="p">;</span>
+        <span class="p">}</span>
+
+    <span class="p">}</span>
+<span class="o">&lt;</span><span class="sr">/script</span><span class="err">&gt;
+</span></code></pre></div>    </div>
+    <p><img src="http://user-images.githubusercontent.com/93863500/148339470-8d5cc971-eeaa-43f2-8f3f-8b25b5ffd6e2.JPG" width="50%" height="100%" />
+<img src="https://user-images.githubusercontent.com/93863500/148339512-1bfc826f-23ac-45c8-812c-171b44c48efb.JPG" width="50%" height="100%" />
+ <br /></p>
+  </li>
+  <li>name 속성값을 이용 : <code class="language-plaintext highlighter-rouge">document.getElementsByName("name속성값")</code> =&gt; 선택된 요소 객체들 배열로 반환
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">action</span><span class="o">=</span><span class="dl">""</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">fieldset</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">legend</span><span class="o">&gt;</span><span class="nx">메뉴</span><span class="o">&lt;</span><span class="sr">/legend</span><span class="err">&gt;
+</span>
+        <span class="o">&lt;</span><span class="nx">input</span> <span class="nx">type</span><span class="o">=</span><span class="dl">"</span><span class="s2">checkbox</span><span class="dl">"</span> <span class="nx">name</span><span class="o">=</span><span class="dl">"</span><span class="s2">food</span><span class="dl">"</span> <span class="nx">value</span><span class="o">=</span><span class="dl">"</span><span class="s2">뜨끈한 추어탕</span><span class="dl">"</span> <span class="nx">id</span><span class="o">=</span><span class="dl">"</span><span class="s2">chu</span><span class="dl">"</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">label</span> <span class="k">for</span><span class="o">=</span><span class="dl">"</span><span class="s2">game</span><span class="dl">"</span><span class="o">&gt;</span><span class="nx">추어탕</span><span class="o">&lt;</span><span class="sr">/label</span><span class="err">&gt;
+</span>
+        <span class="o">&lt;</span><span class="nx">input</span> <span class="nx">type</span><span class="o">=</span><span class="dl">"</span><span class="s2">checkbox</span><span class="dl">"</span> <span class="nx">name</span><span class="o">=</span><span class="dl">"</span><span class="s2">food</span><span class="dl">"</span> <span class="nx">value</span><span class="o">=</span><span class="dl">"</span><span class="s2">매콤한 순대볶음</span><span class="dl">"</span> <span class="nx">id</span><span class="o">=</span><span class="dl">"</span><span class="s2">soon</span><span class="dl">"</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">label</span> <span class="k">for</span><span class="o">=</span><span class="dl">"</span><span class="s2">reading</span><span class="dl">"</span><span class="o">&gt;</span><span class="nx">순대볶음</span><span class="o">&lt;</span><span class="sr">/label</span><span class="err">&gt;
+</span>
+        <span class="o">&lt;</span><span class="nx">input</span> <span class="nx">type</span><span class="o">=</span><span class="dl">"</span><span class="s2">checkbox</span><span class="dl">"</span> <span class="nx">name</span><span class="o">=</span><span class="dl">"</span><span class="s2">food</span><span class="dl">"</span> <span class="nx">value</span><span class="o">=</span><span class="dl">"</span><span class="s2">배터지는 샤브샤브</span><span class="dl">"</span> <span class="nx">id</span><span class="o">=</span><span class="dl">"</span><span class="s2">sha</span><span class="dl">"</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">label</span> <span class="k">for</span><span class="o">=</span><span class="dl">"</span><span class="s2">sport</span><span class="dl">"</span><span class="o">&gt;</span><span class="nx">샤브샤브</span><span class="o">&lt;</span><span class="sr">/label</span><span class="err">&gt;
+</span>
+    <span class="o">&lt;</span><span class="sr">/fieldset</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="sr">/form</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="nx">br</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">div</span> <span class="kd">class</span><span class="o">=</span><span class="dl">"</span><span class="s2">area</span><span class="dl">"</span> <span class="nx">id</span><span class="o">=</span><span class="dl">"</span><span class="s2">area3</span><span class="dl">"</span><span class="o">&gt;&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="nx">button</span> <span class="nx">onclick</span><span class="o">=</span><span class="dl">"</span><span class="s2">accessName();</span><span class="dl">"</span><span class="o">&gt;</span><span class="nx">name으로</span> <span class="nx">접근</span><span class="o">&lt;</span><span class="sr">/button</span><span class="err">&gt;
+</span>
+<span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+    <span class="kd">function</span> <span class="nx">accessName</span><span class="p">(){</span>
+        <span class="kd">var</span> <span class="nx">food</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByName</span><span class="p">(</span><span class="dl">"</span><span class="s2">food</span><span class="dl">"</span><span class="p">);</span>        
+
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">food</span><span class="p">);</span>              
+        <span class="kd">var</span> <span class="nx">area3</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">area3</span><span class="dl">"</span><span class="p">);</span>
+
+        <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">food</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">food</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">checked</span><span class="p">);</span> 
+            <span class="k">if</span><span class="p">(</span><span class="nx">food</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">checked</span><span class="p">){</span>           
+                <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">food</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">value</span><span class="p">);</span>
+                <span class="nx">area3</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">+=</span> <span class="nx">food</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">value</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">&lt;br&gt;</span><span class="dl">"</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="o">&lt;</span><span class="sr">/script&gt; </span><span class="err"> 
+</span></code></pre></div>    </div>
+    <p><img src="https://user-images.githubusercontent.com/93863500/148340075-76f5a31c-436d-46a4-93cc-0c1d38363dc8.JPG" width="100%" height="100%" align="center" />
+<img src="https://user-images.githubusercontent.com/93863500/148340112-e15175a1-388f-4e77-8bc4-792a42f03629.JPG" width="100%" height="100%" align="center" />
+ <br /></p>
+  </li>
+  <li>
+    <p>클래스 이용 : <code class="language-plaintext highlighter-rouge">document.getElementsByClassName("class속성값")</code> =&gt; 선택된 요소 객체들 배열로 반환
+ <br /></p>
+  </li>
+  <li>선택자 활용 : <code class="language-plaintext highlighter-rouge">document.querySelector("선택자") | document.querySelectorAll("선택자")</code>
+<br /></li>
+</ol>
+
+<h4>출처</h4>
+<ul>
+  <li>수업자료</li>
+  <li>https://www.w3schools.com/</li>
+</ul>
+:ET
