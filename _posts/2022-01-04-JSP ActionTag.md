@@ -19,14 +19,15 @@ comments: true
 </style>
 
 
-<h2>JSP Action Tag</h2>
+## JSP Action Tag
 XML기술을 이용하여 기존 JSP문법을 확장시키는 기능을 제공하는 태그<br>
 
 
-<h2>1.표준액션태그</h2>
+## 1.표준액션태그
 <p>미리 정해진 기능들이 JSP 스펙에 명시돼있어서 jsp라는 접두어와 태그명을 제시하면 컨테이너가 해당 기능을 수행하도록 만든 기본 액션 태그 </p>
-<h3>1) jsp:include</h3> : 다른 페이지를 포함할 때 사용하는 태그<br>
-&nbsp;&nbsp;- 표현식 <jsp:include page="포함할 JSP 페이지"&gt;
+### 1) jsp:include 
+다른 페이지를 포함할 때 사용하는 태그<br>
+- 표현식 <jsp:include page="포함할 JSP 페이지"&gt;
 <br>
 
 <h4> * 기존 방식과 비교 </h4>
@@ -55,10 +56,11 @@ XML기술을 이용하여 기존 JSP문법을 확장시키는 기능을 제공�
 
 <br><br>
 
-<h3> 2) jsp:forward</h3> : 현재 실행중인 JSP페이지의 제어 흐름을 특정 JSP로 넘길 때 사용하는 태그<br>
+### 2) jsp:forward
+현재 실행중인 JSP페이지의 제어 흐름을 특정 JSP로 넘길 때 사용하는 태그<br>
 &nbsp;&nbsp;- 표현식 <jsp:forward page="포워딩할 JSP 페이지"&gt;
 
-<h4> * include와 forward의 차이 </h4>
+#### * include와 forward의 차이 
 <table>
 	<tr align="center">
 		<th>include</th>
@@ -84,7 +86,7 @@ XML기술을 이용하여 기존 JSP문법을 확장시키는 기능을 제공�
 
 <br><br><br>
 
-<h2>2.커스텀액션태그(JSTL)</h2>
+## 2.커스텀액션태그(JSTL)
 <p> JSP 태그 라이브러리를 추가하여 스트립틀릿 태그 사용 없이 보다 간편하게 JSP를 사용할 수 있게 해주는 태그로 대표적으로 JSTL이 있다. </p>
 
 <h4> * 주요 tag들 </h4>
@@ -123,7 +125,7 @@ XML기술을 이용하여 기존 JSP문법을 확장시키는 기능을 제공�
 
 <br><br>
 
-<h3>1.Core Library</h3>
+### 1.Core Library
 <p>변수 지정, 반복문, 조건문 등 흐름제어, url/쿼리스트링 관련</p>
 <br>
 
@@ -182,7 +184,7 @@ XML기술을 이용하여 기존 JSP문법을 확장시키는 기능을 제공�
 
 <br><br>
 
-<h3>2. fmt </h3>
+### 2. fmt
 <p>번호 및 날짜 형식화 지원</p>
 <br>
 
@@ -205,7 +207,7 @@ XML기술을 이용하여 기존 JSP문법을 확장시키는 기능을 제공�
 
 <br><br>
 
-<h3>3. fn </h3>
+### 3. fn 
 <p>문자열 관련 함수</p>
 <br>
 
