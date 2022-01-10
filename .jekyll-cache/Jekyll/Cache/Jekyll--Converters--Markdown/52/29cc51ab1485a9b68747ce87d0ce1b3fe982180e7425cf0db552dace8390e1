@@ -1,0 +1,72 @@
+I"�<style>
+	h3{
+		background-color:#D2D2FF;
+		color: gray;
+	}
+</style>
+
+<h2 id="1-mybatis-configxml파일이란">1. mybatis-config.xml파일이란?</h2>
+
+<ul>
+  <li>mybatis에 필요한 설정들을 기술하는 파일</li>
+</ul>
+
+<h3 id="1-mybatis-configxml-생성">1) mybatis-config.xml 생성</h3>
+<ol>
+  <li>Java Resources 아래 Source Folder 안에 위치</li>
+  <li>DTD file로 생성</li>
+</ol>
+
+<h3 id="2-설정-태그들">2) 설정 태그들</h3>
+<h4 id="1environment">(1)environment</h4>
+
+<ul>
+  <li>연동할 DB 정보 입력하는 태그</li>
+</ul>
+
+<pre><code class="language-javaStript"> &lt;environments default="development"&gt;
+	
+    &lt;environment id="development"&gt;
+        
+        &lt;transactionManager type="JDBC" /&gt;
+        
+        &lt;dataSource type="POOLED"&gt;
+            &lt;property name="driver" value="oracle.jdbc.driver.OracleDriver" /&gt;
+            &lt;property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" /&gt;
+            &lt;property name="username" value="DB계정" /&gt;
+            &lt;property name="password" value="비밀번호" /&gt;
+        &lt;/dataSource&gt;
+        
+    &lt;/environment&gt;
+    
+&lt;/environments&gt;
+</code></pre>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">종류</th>
+      <th style="text-align: center">설명</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">transactionManager</td>
+      <td style="text-align: center">JDBC : 수동 commit / MANAGED : 자동 commit</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">dataSource</td>
+      <td style="text-align: center">POOLED : ConnectionPool 사용 O / UNPOOLED : 사용 x</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="출처">출처</h4>
+
+<ul>
+  <li>수업자료</li>
+  <li><a href="https://www.w3schools.com/">w3schools</a></li>
+  <li><a href="https://mybatis.org/mybatis-3/ko/getting-started.html">마이바티스 공식문서</a></li>
+</ul>
+
+:ET
