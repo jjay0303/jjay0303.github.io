@@ -1,0 +1,32 @@
+I"�<h2 id="사용자가-서비스-요청시-전달값들을-넘겨받는-방법에-대해-알아보자">사용자가 서비스 요청시 전달값들을 넘겨받는 방법에 대해 알아보자</h2>
+
+<h3 id="1-httpservletrequest-이용기존-jspservlet방식">1. HttpServletRequest 이용(기존 jsp/Servlet방식)</h3>
+<ul>
+  <li>해당 메소드의 매개변수를 HttpServletRequest로 해서 스프링 컨테이너가 해당 메소드 호출시 자동으로 해당 객체 생성하고 인자로 주입</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"login.me"</span><span class="o">)</span>
+   <span class="kd">public</span> <span class="nc">String</span> <span class="nf">loginMem</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">){</span>
+      <span class="nc">String</span> <span class="n">userId</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"id"</span><span class="o">);</span>
+      <span class="nc">String</span> <span class="n">userPwd</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"pwd"</span><span class="o">);</span>
+			
+		<span class="k">return</span> <span class="s">"main"</span><span class="o">;</span>
+   <span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="2-requestparam-어노테이션-이용">2. @RequestParam 어노테이션 이용</h3>
+<ul>
+  <li>request.getParameter의 역할을 대신 해줌
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"login.me"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">loginMem</span><span class="o">(</span><span class="nd">@RequestParam</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="s">"id"</span><span class="o">,</span> <span class="n">defaultValue</span><span class="o">=</span><span class="s">"admin"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">userId</span><span class="o">,</span>
+                         <span class="nd">@RequestParam</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="s">"pwd"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">userPwd</span><span class="o">){</span>
+                               
+   <span class="nc">String</span> <span class="n">userId</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"id"</span><span class="o">);</span>
+   <span class="nc">String</span> <span class="n">userPwd</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"pwd"</span><span class="o">);</span>
+			
+     <span class="k">return</span> <span class="s">"main"</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+:ET

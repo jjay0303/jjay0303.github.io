@@ -3,6 +3,7 @@ layout: post
 title: "[Mybatis]mapper.xml파일"
 date: 2022-01-10
 excerpt: "mapper.xml파일에 대해 알아보자"
+categories: Mybatis
 tags: [study, Mybatis, mapper]
 comments: true
 ---

@@ -3,6 +3,7 @@ layout: post
 title: "[JSP]JSP ActionTag"
 date: 2022-01-04
 excerpt: "JSP ActionTag란?"
+categories: JSP
 tags: [study, JSP]
 comments: true
 ---

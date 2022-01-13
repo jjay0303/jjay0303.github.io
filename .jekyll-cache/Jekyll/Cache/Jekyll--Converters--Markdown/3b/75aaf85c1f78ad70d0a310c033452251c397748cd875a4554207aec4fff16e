@@ -1,4 +1,4 @@
-I"9<h2 id="spring-framework란">Spring FrameWork란?</h2>
+I"]<h2 id="spring-framework란">Spring FrameWork란?</h2>
 <ul>
   <li>자바 플랩폼을 위한 오픈소스 애플리케이션 프레임워크로 Spring이라고도 불림</li>
   <li>동적 웹사이트 개발을 위한 여러 서비스를 제공하며 전자정부 표준프레임워크의 기반 기술</li>
@@ -50,7 +50,7 @@
   <li>root-context.xml
     <ul>
       <li>서버 구동과 동시에 바로 셋팅할 내용들을 작성하면 됨(bean으로 등록)
-주로 DB연결설정, 트랜잭션 처리, 내외부 모듈 연동 등 비즈니스 로직 관련 설정</li>
+주로 DB연결설정, 트랜잭션 처리, 내외부 모듈 연동 등 비즈니스 로직 관련 설정<br />즉, Back-End의 설정파일</li>
       <li>sqlSessionFactory, sqlSession 클래스 등록 등등</li>
     </ul>
   </li>
@@ -67,7 +67,9 @@
   </li>
   <li>servlet-context.xml
     <ul>
-      <li></li>
+      <li>MVC Model의 View와 관련된 객체를 정의하는 파일. 쉽게말해 Front-End 설정파일</li>
+      <li>사용자가 url요청시 HandlerMapping을 통해 요청 url에 해당하는 Controller를 실행(단, 해당 Controller가 빈에 등록되있어야함)</li>
+      <li><code class="language-plaintext highlighter-rouge">&lt;annotation-driven /&gt;</code>과 <code class="language-plaintext highlighter-rouge">&lt;context:component-scan base-package="com.kh.spring" /&gt;</code> 태그를 이용하여 annotation으로 bin을 등록할 수 있게 해줌</li>
     </ul>
   </li>
 </ol>
@@ -76,7 +78,7 @@
 
 <ul>
   <li>수업자료</li>
-  <li>생활코딩</li>
+  <li><a href="https://cluster-taek.tistory.com/entry/webxml-%EA%B3%BC-servlet-contextxml-%EA%B3%BC-root-contextxml">https://cluster-taek.tistory.com/entry/webxml-%EA%B3%BC-servlet-contextxml-%EA%B3%BC-root-contextxml</a></li>
 </ul>
 
 :ET

@@ -3,7 +3,8 @@ layout: post
 title: "Framework란?"
 date: 2022-01-12
 excerpt: "FrameWork에 대해 알아보자"
-tags: [study, 기본개념, Framework]
+categories: IT개념
+tags: [study, IT개념, Spring]
 comments: true
 ---
 

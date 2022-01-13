@@ -1,0 +1,55 @@
+I"<h2 id="사용자-요청-처리-후-view로-데이터-전달하는-방법에-대해서-알아보자">사용자 요청 처리 후 View로 데이터 전달하는 방법에 대해서 알아보자</h2>
+
+<h3 id="1-model-객체-사용">1. Model 객체 사용</h3>
+<ul>
+  <li>포워딩할 뷰로 전달할 데이터를 맵형식(key-value 세트)로 담을 수 잇는 영역. 즉, 데이터만 담김</li>
+  <li>단, addAttribute 메소드 이용</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"login.me"</span><span class="o">)</span>
+  <span class="kd">public</span> <span class="nc">String</span> <span class="nf">loginMem</span><span class="o">(</span><span class="nc">Member</span> <span class="n">m</span><span class="o">,</span> <span class="nc">Model</span> <span class="n">model</span><span class="o">,</span> <span class="nc">HttpSession</span> <span class="n">session</span><span class="o">){</span>
+      <span class="nc">Member</span> <span class="n">loginUser</span> <span class="o">=</span> <span class="n">mService</span><span class="o">.</span><span class="na">loginMem</span><span class="o">(</span><span class="n">m</span><span class="o">);</span>
+		
+		<span class="k">if</span><span class="o">(</span><span class="n">loginUser</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>	
+			<span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">"errorMsg"</span><span class="o">,</span> <span class="s">"로그인 실패"</span><span class="o">);</span>
+			<span class="k">return</span> <span class="s">"/common/errorPage"</span><span class="o">;</span>		
+		<span class="o">}</span><span class="k">else</span> <span class="o">{</span>	
+			<span class="n">session</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"loginUser"</span><span class="o">,</span> <span class="n">loginUser</span><span class="o">);</span>
+			<span class="k">return</span> <span class="s">"redirect:/"</span><span class="o">;</span>		
+		<span class="o">}</span>
+  <span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="2-modelandview-객체-사용">2. ModelAndView 객체 사용</h3>
+<ul>
+  <li>응답뷰에 대한 정보를 Views에 바로 넘기는 방식 즉, 데이터+이동할 View Page가 같이 담김</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"login.me"</span><span class="o">)</span>
+	<span class="kd">public</span> <span class="nc">ModelAndView</span> <span class="nf">loginMember</span><span class="o">(</span><span class="nc">Member</span> <span class="n">m</span><span class="o">,</span> <span class="nc">HttpSession</span> <span class="n">session</span><span class="o">,</span> <span class="nc">ModelAndView</span> <span class="n">mv</span><span class="o">)</span> <span class="o">{</span>	
+		
+		<span class="nc">Member</span> <span class="n">loginUser</span> <span class="o">=</span> <span class="n">mService</span><span class="o">.</span><span class="na">loginMem</span><span class="o">(</span><span class="n">m</span><span class="o">);</span>
+		
+		<span class="k">if</span><span class="o">(</span><span class="n">loginUser</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>	
+			<span class="n">mv</span><span class="o">.</span><span class="na">addObject</span><span class="o">(</span><span class="s">"errorMsg"</span><span class="o">,</span> <span class="s">"로그인실패"</span><span class="o">);</span>
+			<span class="n">mv</span><span class="o">.</span><span class="na">setViewName</span><span class="o">(</span><span class="s">"/common/errorPage"</span><span class="o">);</span>
+			
+		<span class="o">}</span><span class="k">else</span> <span class="o">{</span>	
+			<span class="n">session</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"loginUser"</span><span class="o">,</span> <span class="n">loginUser</span><span class="o">);</span>
+			<span class="n">mv</span><span class="o">.</span><span class="na">setViewName</span><span class="o">(</span><span class="s">"redirect:/"</span><span class="o">);</span>
+		<span class="o">}</span>
+		
+		<span class="k">return</span> <span class="n">mv</span><span class="o">;</span>
+	<span class="o">}</span>
+</code></pre></div></div>
+
+<p>#### 1) addObject</p>
+<ul>
+  <li>key와 value를 담아서 보낼 수 있는 메소드</li>
+</ul>
+
+<p>#### 2) setViewName</p>
+<ul>
+  <li>데이터를 보낼 페이지를 지정</li>
+</ul>
+:ET

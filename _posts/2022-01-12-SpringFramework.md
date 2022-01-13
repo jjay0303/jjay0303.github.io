@@ -3,6 +3,7 @@ layout: post
 title: "Spring FrameWork란?"
 date: 2022-01-12
 excerpt: "Spring FrameWork에 대해 알아보자"
+categories: Spring
 tags: [study, Spring FrameWork, spring]
 comments: true
 ---
@@ -30,8 +31,8 @@ comments: true
 
  2. root-context.xml
   - 서버 구동과 동시에 바로 셋팅할 내용들을 작성하면 됨(bean으로 등록)
-	주로 DB연결설정, 트랜잭션 처리, 내외부 모듈 연동 등 비즈니스 로직 관련 설정
-  - sqlSessionFactory, sqlSession 클래스 등록 등등
+	주로 DB연결설정, 트랜잭션 처리, 내외부 모듈 연동 등 비즈니스 로직 관련 설정<br>즉, Back-End의 설정파일
+  - sqlSessionFactory, sqlSession 클래스 등록 등등 
  
  3. pom.xml
   - Maven의 빌드 정보를 담고 있는 파일로 project, properties, repositories, dependenties, build 등의 태그로 이루어져 있음
@@ -41,13 +42,15 @@ comments: true
   => 순수 mybatis일 때는 environment와 dataSource로 DB접속정보를 작성해야 했지만 spring-mybatis는 가장 먼저 읽히는 root-context에 db접속정보 등록함
 
  5. servlet-context.xml
- - 
+ - MVC Model의 View와 관련된 객체를 정의하는 파일. 쉽게말해 Front-End 설정파일
+ - 사용자가 url요청시 HandlerMapping을 통해 요청 url에 해당하는 Controller를 실행(단, 해당 Controller가 빈에 등록되있어야함)
+ - `<annotation-driven />`과 `<context:component-scan base-package="com.kh.spring" />` 태그를 이용하여 annotation으로 bin을 등록할 수 있게 해줌
 
 
 #### 출처
 
   - 수업자료
-  - 생활코딩
+  - <a href="https://cluster-taek.tistory.com/entry/webxml-%EA%B3%BC-servlet-contextxml-%EA%B3%BC-root-contextxml">https://cluster-taek.tistory.com/entry/webxml-%EA%B3%BC-servlet-contextxml-%EA%B3%BC-root-contextxml</a>
 
 
 

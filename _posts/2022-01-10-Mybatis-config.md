@@ -3,6 +3,7 @@ layout: post
 title: "[Mybatis]mybatis-config.xml파일"
 date: 2022-01-10
 excerpt: "mybatis-config.xml파일에 대해 알아보자"
+categories: Mybatis
 tags: [study, Mybatis, mybatis-config]
 comments: true
 ---

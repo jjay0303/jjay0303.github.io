@@ -3,7 +3,8 @@ layout: post
 title: "[Spring] DTD mapper 설정하기"
 date: 2022-01-12
 excerpt: "DTD mapper 설정"
-tags: [study, Spring setting]
+categories: Spring
+tags: [study, Spring, Spring setting]
 comments: true
 ---
 
