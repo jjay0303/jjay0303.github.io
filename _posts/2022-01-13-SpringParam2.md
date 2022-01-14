@@ -51,8 +51,8 @@ comments: true
 	}
  ```
 
- #### 1) addObject
+#### 1) addObject
   - key와 value를 담아서 보낼 수 있는 메소드
 
- #### 2) setViewName
+#### 2) setViewName
   - 데이터를 보낼 페이지를 지정

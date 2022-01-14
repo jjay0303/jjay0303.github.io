@@ -1,4 +1,4 @@
-I"<h2 id="사용자-요청-처리-후-view로-데이터-전달하는-방법에-대해서-알아보자">사용자 요청 처리 후 View로 데이터 전달하는 방법에 대해서 알아보자</h2>
+I")<h2 id="사용자-요청-처리-후-view로-데이터-전달하는-방법에-대해서-알아보자">사용자 요청 처리 후 View로 데이터 전달하는 방법에 대해서 알아보자</h2>
 
 <h3 id="1-model-객체-사용">1. Model 객체 사용</h3>
 <ul>
@@ -43,12 +43,12 @@
 	<span class="o">}</span>
 </code></pre></div></div>
 
-<p>#### 1) addObject</p>
+<h4 id="1-addobject">1) addObject</h4>
 <ul>
   <li>key와 value를 담아서 보낼 수 있는 메소드</li>
 </ul>
 
-<p>#### 2) setViewName</p>
+<h4 id="2-setviewname">2) setViewName</h4>
 <ul>
   <li>데이터를 보낼 페이지를 지정</li>
 </ul>
