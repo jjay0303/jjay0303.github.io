@@ -1,0 +1,153 @@
+I"�"<h2 id="파일업로드-순서와-사용하는-라이브러리에-대해-알아보자">파일업로드 순서와 사용하는 라이브러리에 대해 알아보자!</h2>
+
+<h3 id="1-파일-업로드-순서">1. 파일 업로드 순서</h3>
+
+<h3 id="1-화면단-jsp에서-form-태그-속성-설정">1) 화면단 jsp에서 form 태그 속성 설정</h3>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;form</span> <span class="na">id=</span><span class="s">""</span> <span class="na">method=</span><span class="s">"post"</span> <span class="na">action=</span><span class="s">"mapping값"</span> <span class="na">enctype=</span><span class="s">"multipart/form-data"</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>method 속성값</li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">get</th>
+      <th style="text-align: center">post</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">url에 폼데이터 추가하여 전달</td>
+      <td style="text-align: center">폼데이터를 별로도 첨부하여 전달</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">길이 제한 있음</td>
+      <td style="text-align: center">길이 제한 없음</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">보안에 취약</td>
+      <td style="text-align: center">보안성 높음</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">브라우저에 캐시되어 저장=&gt; 히스토리 o</td>
+      <td style="text-align: center">캐시 X =&gt; 히스토리 x</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>enctype 속성값
+    <ul>
+      <li>폼 데이터가 서버로 제출될 때 해당 데이터가 인코딩되는 방법 명시<br /></li>
+      <li>form요소의 method 속성값이 post일 경우에만 사용가능</li>
+    </ul>
+  </li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">속성값</th>
+      <th style="text-align: center">설명</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">application/x-www-form-urlencoded</td>
+      <td style="text-align: center">기본값, 모든 문자들은 서버로 보내기 전 인코딩됨을 명시</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">text/plain</td>
+      <td style="text-align: center">공백(space)는 "+"로, 나머지 문자는 모두 인코딩되지 않음을 명시</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">multipart/form-data</td>
+      <td style="text-align: center">모든 문자 인코딩 x, 파일이나 이미지 전송시 주로 사용</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="2-사용할-라이브러리-등록">2) 사용할 라이브러리 등록</h3>
+
+<ul>
+  <li>
+    <p>Apache Commons Fileupload과 Apache Commons IO 라이브러리를 pom.xml에 등록</p>
+  </li>
+  <li>
+    <p>root-context.xml에 관련 빈 등록</p>
+  </li>
+</ul>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">"org.springframework.web.multipart.commons.CommonsMultipartResolver"</span> <span class="na">id=</span><span class="s">"multipartResolver"</span><span class="nt">&gt;</span>
+	 	<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"maxUploadSize"</span> <span class="na">value=</span><span class="s">"100000000"</span> <span class="nt">/&gt;</span>
+	 	<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"maxInMemorySize"</span> <span class="na">value=</span><span class="s">"100000000"</span> <span class="nt">/&gt;</span>
+	<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div></div>
+
+<table>
+  <tbody>
+    <tr>
+      <td>프로퍼티</td>
+      <td>타입</td>
+      <td>설명</td>
+    </tr>
+    <tr>
+      <td>maxUploadSize</td>
+      <td>long</td>
+      <td>최대 업로드 가능한 바이트 크기. 기본값 -1(크기 제한 X)</td>
+    </tr>
+    <tr>
+      <td>maxInMemorySize</td>
+      <td>int</td>
+      <td>디스크데 임시파일 생성 전 메모리에 보관할 수 있는 최대 바이트크기. 기본값 10240바이트</td>
+    </tr>
+    <tr>
+      <td>defaultEncoding</td>
+      <td>String</td>
+      <td>요청을 파싱할 때 사용할 캐릭터 인코딩. 아무 값도 없을 때는 ISO-8859-1 사용</td>
+    </tr>
+    <tr>
+      <td>uploadTempDir</td>
+      <td>Resource</td>
+      <td>임시디렉토리 지정</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="3-원본파일의-이름을-업로드파일명으로-수정할-메소드-생성">3) 원본파일의 이름을 업로드파일명으로 수정할 메소드 생성</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">saveFile</span><span class="o">(</span><span class="nc">MultipartFile</span> <span class="n">upfile</span><span class="o">,</span> <span class="nc">HttpSession</span> <span class="n">session</span><span class="o">)</span> <span class="o">{</span>
+		<span class="nc">String</span> <span class="n">originName</span> <span class="o">=</span> <span class="n">upfile</span><span class="o">.</span><span class="na">getOriginalFilename</span><span class="o">();</span>	<span class="c1">// 원본명</span>
+		
+		<span class="nc">String</span> <span class="n">upTime</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SimpleDateFormat</span><span class="o">(</span><span class="s">"yyyyMMddHHmmss"</span><span class="o">).</span><span class="na">format</span><span class="o">(</span><span class="k">new</span> <span class="nc">Date</span><span class="o">());</span>	
+        <span class="c1">//업로드 년월일시분초를 문자열로 받기</span>
+		<span class="kt">int</span> <span class="n">ran</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)(</span><span class="nc">Math</span><span class="o">.</span><span class="na">random</span><span class="o">()*</span><span class="mi">90000</span> <span class="o">+</span> <span class="mi">10000</span><span class="o">);</span>								
+        <span class="c1">// 5자리의 랜덤숫자 ( 10000 : 시작숫자 / 90000 : 랜덤숫자 총 갯수)</span>
+		<span class="nc">String</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">originName</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">originName</span><span class="o">.</span><span class="na">lastIndexOf</span><span class="o">(</span><span class="s">"."</span><span class="o">));</span>					
+        <span class="c1">// 원본파일 확장자</span>
+		
+		<span class="nc">String</span> <span class="n">changeName</span> <span class="o">=</span> <span class="n">upTime</span> <span class="o">+</span> <span class="n">ran</span> <span class="o">+</span> <span class="n">ext</span><span class="o">;</span>		<span class="c1">// 수정된 파일명</span>
+		
+		<span class="c1">// 업로드할 폴더의 절대 경로 추출</span>
+		<span class="nc">String</span> <span class="n">savePath</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="na">getServletContext</span><span class="o">().</span><span class="na">getRealPath</span><span class="o">(</span><span class="s">"/resources/uploadFiles/"</span><span class="o">);</span>
+		
+		<span class="k">try</span> <span class="o">{</span>
+			<span class="n">upfile</span><span class="o">.</span><span class="na">transferTo</span><span class="o">(</span><span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="n">savePath</span> <span class="o">+</span> <span class="n">changeName</span><span class="o">));</span>
+		<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IllegalStateException</span> <span class="o">|</span> <span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+		<span class="o">}</span>
+		
+		<span class="k">return</span> <span class="n">changeName</span><span class="o">;</span>
+	<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="참고">참고</h4>
+<ul>
+  <li>수업자료</li>
+  <li><a href="https://m.blog.naver.com/javaking75/140203390797">[스프링] 스프링의 MVC - 파일 업로드 처리, 다운로드 처리</a></li>
+  <li><a href="https://docs.spring.io/spring-framework/docs/3.2.10.RELEASE/javadoc-api/org/springframework/web/multipart/commons/CommonsMultipartResolver.html">Class CommonsMultipartResolver</a></li>
+</ul>
+:ET

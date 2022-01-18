@@ -26,6 +26,7 @@ comments: true
  - 퀴리문의 parameterType이라는 속성에서 해당 조건을 받아주므로 조건의 데이터타입을 명시해둠
  - 쿼리의 결과를 List<E>로 반환하며 결과가 없으면 빈 List 반환
 
+
 #### 참고
  - 수업자료
  - <a href='https://mybatis.org/mybatis-3/ko/java-api.html#sqlSessions'>url-pattern에서 / 와 /*의 차이점</a>
