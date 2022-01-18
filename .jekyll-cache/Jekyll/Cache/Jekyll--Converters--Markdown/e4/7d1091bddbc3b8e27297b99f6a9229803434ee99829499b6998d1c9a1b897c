@@ -1,0 +1,111 @@
+I"�<h3 id="1-요소-생성-및-제거-메소드">1. 요소 생성 및 제거 메소드</h3>
+<ol>
+  <li>동적으로 요소 생성
+    1. 문자열(순수 자스 방식)
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">let el1 = "&lt;p&gt;Create Element By Text&lt;/p&gt;";</code></li>
+    </ul>
+  </li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2. DOM메소드 이용(순수 자스 방식)
+
+|메소드|설명|
+|:---:|:---:|
+|document.createElement\(HTML요소)|지정된 HTML 요소 생성해서 반환|
+|document.write\(텍스트)|HTML 출력 스트림을 통해 텍스트를 출력|
+|document.createTextNode\(\"텍스트\")|특정 텍스트를 포함하는 새 텍스트 노드 반환|
+
+```javaScript
+  let el2 = document.createElement("p");      //&lt;p&gt;&lt;/p&gt;
+  let txt = document.createTextNode("Create Element By DOM");
+  el2.appendChild(txt);     
+```
+
+- appendChild(txt) : 해당 문서에 txt 추가
+
+3. jQuery로 만들기
+  - ` let el3 = $("&lt;p&gt;&lt;/p&gt;").text("Create Element By jQuery");`
+</code></pre></div></div>
+
+<h3 id="2-삽입-관련-메소드">2. 삽입 관련 메소드</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">메소드</th>
+      <th style="text-align: center">설명</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">$(B).appendTo(A)</td>
+      <td style="text-align: center">B를 A요소 내 뒷부분에 추가 (자손/하위)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">$(B).prependTo(A)</td>
+      <td style="text-align: center">B를 A요소 내 앞부분에 추가 (자손/하위)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">$(B).insertAfter(A)</td>
+      <td style="text-align: center">B를 A요소 뒤에 추가 (동위)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">$(B).insertBefore(A)</td>
+      <td style="text-align: center">B를 A요소 앞에 추가 (동위)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="3-요소-객체-복제-메소드">3. 요소 객체 복제 메소드</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">메소드</th>
+      <th style="text-align: center">설명</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">$("선택자").clone()</td>
+      <td style="text-align: center">선택된 요소 복제, true일 시 이벤트까지 복사(기본값 false)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">$("선택자").cloneNode()</td>
+      <td style="text-align: center">선택된 요소 복제해서 반환</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="4-요소-객체-제거-및-잘라내기">4. 요소 객체 제거 및 잘라내기</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">메소드</th>
+      <th style="text-align: center">설명</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">$("선택자").empty()</td>
+      <td style="text-align: center">선택된 요소의 하위 요소들 제거</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">$("자를요소선택자").remove()</td>
+      <td style="text-align: center">선택된 요소를 잘라내기시 잘라낸 요소의 이벤트는 안가져오고 해당 제거된 요소 반환</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">$("자를요소선택자").detach()</td>
+      <td style="text-align: center">선택된 요소를 잘라내기시 잘라낸 요소의 이벤트까지 가져온 뒤 해당 제거된 요소 반환</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4>출처</h4>
+<ul>
+  <li>수업자료</li>
+  <li>https://www.w3schools.com/</li>
+</ul>
+:ET

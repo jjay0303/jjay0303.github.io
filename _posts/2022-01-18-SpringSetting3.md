@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Spring] taglib 코드가 등록되있는 jsp 파일 생성하기"
-date: 2022-01-17
+date: 2022-01-18
 excerpt: "jsp파일 설정"
 categories: Spring
 tags: [study, Spring]
