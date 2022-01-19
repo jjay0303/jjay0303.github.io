@@ -3,7 +3,7 @@ layout: post
 title: "JavaScript"
 date: 2022-01-06
 excerpt: "JavaScript란?"
-categories: javaScript
+categories: JavaScript
 tags: [study, JavaScript]
 comments: true
 ---

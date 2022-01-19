@@ -1,0 +1,41 @@
+I"Q<h2 id="sqlsession-클래스에-대해-알아보자">SqlSession 클래스에 대해 알아보자</h2>
+
+<h3 id="1-sqlsession">1. SqlSession</h3>
+<ul>
+  <li>mybatis에서 제공하는 클래스로 구문 실행, 트랜젝션 커밋/롤백, mapper 관련 메소드 등등을 제공. 즉, DAO에 직접 접근하여 쿼리를 수행하고 CRUD를 할 수 있는 메소드들을 제공하는 클래스</li>
+</ul>
+
+<h3 id="2-selectone">2. selectOne</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">selectOne(query문id)</code> 또는 <code class="language-plaintext highlighter-rouge">selectOne(query문id, 조건)</code></li>
+  <li>select문 실행 후 오직 하나의 객체만 리턴할 때 사용</li>
+  <li>xml에서의 resultType과 selectOne으로 받는 데이터 타입을 맞춰서 받아줌</li>
+  <li>값이 없으면 null 반환</li>
+</ul>
+
+<h3 id="3-selectlist">3. selectList</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">selectList(query문id)</code> 또는 <code class="language-plaintext highlighter-rouge">selectList(query문id, '조건')</code></li>
+  <li>select문을 실행하면서 조건을 전달
+    <ul>
+      <li>조건 : 쿼리문에서 사용하는 인자</li>
+    </ul>
+  </li>
+  <li>퀴리문의 parameterType이라는 속성에서 해당 조건을 받아주므로 조건의 데이터타입을 명시해둠</li>
+  <li>쿼리의 결과를 List<E>로 반환하며 결과가 없으면 빈 List 반환</E></li>
+</ul>
+
+<h3 id="4-insert-update-delete">4. insert, update, delete</h3>
+<ul>
+  <li>쿼리문 id에 대한 insert, update, delete문을 실행 후 결과 반환</li>
+  <li><code class="language-plaintext highlighter-rouge">insert(query문id, Object obj)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">update(query문id, Object obj)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">delete(query문id, Object obj)</code></li>
+</ul>
+
+<h4 id="참고">참고</h4>
+<ul>
+  <li>수업자료</li>
+  <li><a href="https://mybatis.org/mybatis-3/ko/java-api.html#sqlSessions">url-pattern에서 / 와 /*의 차이점</a></li>
+</ul>
+:ET

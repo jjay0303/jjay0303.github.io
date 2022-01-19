@@ -3,7 +3,7 @@ layout: post
 title: "JavaScript2"
 date: 2022-01-07
 excerpt: "JavaScript의 자료형, 요소, 메소드 등에 대해서 알아보자"
-categories: javaScript
+categories: JavaScript
 tags: [study, JavaScript]
 comments: true
 ---
