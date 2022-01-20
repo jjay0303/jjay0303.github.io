@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[JavaScript] chart.js란?"
-date: 2022-01-18
+date: 2022-01-19
 excerpt: "chart.js에 대해 알아보자"
 categories: JavaScript
 tags: [study, JavaScript]
