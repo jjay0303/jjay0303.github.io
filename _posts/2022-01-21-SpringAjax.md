@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Spring] 스프링에서 Ajax로 데이터 전달"
-date: 2022-01-20
+date: 2022-01-21
 excerpt: "스프링에서 Ajax를 써보자"
 categories: Spring
 tags: [study, Spring, Ajax]
