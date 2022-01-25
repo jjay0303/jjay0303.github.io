@@ -1,0 +1,30 @@
+I"<h3 id="1-spring-서블릿에-대해-설명해주세요">1. [SPRING] 서블릿에 대해 설명해주세요</h3>
+<ul>
+  <li>자바로 동적 웹페이지를 생성하는 서버측 프로그램 또는 기술</li>
+  <li>HttpServlet 클래스를 상속하며 <code class="language-plaintext highlighter-rouge">Servlet Container</code>에 의해 관리,실행 됨</li>
+  <li>요청(Request)과 응답(Response)로 이뤄져있음</li>
+  <li>
+    <p>Spring에서의 서블릿은 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code>만 등록하고 여기서 핸들러매핑을 통해 각 요청을 해당 Controller로 매핑함<br /></p>
+
+    <p>❓Servlet Container란?
+    - 서블릿을 관리해주는 컨테이너로 톰캣이 대표적
+    - 클라이언트의 요청을 받고 응답할 수 있도록 웹서버와 통신을 지원하고 서블릿 생명주기를 관리함</p>
+  </li>
+</ul>
+
+<h3 id="2-java-클래스와-객체에-대해-설명해주세요">2. [JAVA] 클래스와 객체에 대해 설명해주세요</h3>
+<ul>
+  <li>클래스 : 객체를 구현하기 위한 설계도로 객체와 연관되어있는 변수, 메서드 들의 집합</li>
+  <li>객체: 개별적으로 구분할 수 있는 사물,개념 등 <code class="language-plaintext highlighter-rouge">실제로 존재하는 것</code>, <code class="language-plaintext highlighter-rouge">구현할 대상</code> 자체로 클래스에 선언된 대로 생성된 실체.</li>
+  <li>인스턴스 : 객체가 메모리에 할당 된 것(실체화)이 인스턴스. 즉, 인스턴스는 객체에 포함된다.
+   👉 즉, 추상적인 개념과 구체적인 객체 사이의 관계를 따질 때 사용. 
+ ex) 객체는 클래스의 인스턴스 / 실행프로세스는 프로그램의 인스턴스</li>
+</ul>
+
+<h4 id="참고">참고</h4>
+<ul>
+  <li>자바의정석</li>
+  <li><a href="https://jeong-pro.tistory.com/222">Servlet에 대한 개념없이 스프링을 했네요? </a></li>
+  <li><a href="https://mangkyu.tistory.com/14">[JSP] 서블릿(Servlet)이란?</a></li>
+</ul>
+:ET
