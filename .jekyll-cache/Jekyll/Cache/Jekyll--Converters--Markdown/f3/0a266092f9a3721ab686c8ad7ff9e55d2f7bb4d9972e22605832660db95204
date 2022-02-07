@@ -1,0 +1,133 @@
+I"	*<h2 id="요청된-리소스root명는-가용하지-않습니다를-탈출하기-까지">&lt;요청된 리소스/root명/는 가용하지 않습니다&gt;를 탈출하기 까지</h2>
+
+<p>파이널 프로젝트를 시작하고 드디어 back-end단에 들어오면서 mapper와 dao, service 클래스들을 만든 순간,,,
+ 404에러가 뜨면서 서버에 아얘 연결이 되지 않았고….🤣 
+ 더 환장인건 그냥 <strong><em>요청된 리소스/root명/는 가용하지 않습니다</em></strong> 라는 말만 뜰뿐 다른 이유가 뜨지 않는 것이다…. 
+ 구글링을 통해 각종 xml 파일들에서 설정과 어노테이션 확인, 프로젝트 및 서버 clean 등등 각종 디버깅 방법을 해보면서
+ 스프링이 왜 악명 높은지 몸소 체험하면서 스프링에 대한 심도있는(?) 공부를 하면서 유익한 주말을 보냈다…🤪 
+ 그리고 이 과정을 절대 잊지 않기 위해 정리해둔다. 여기서는 대략적인 흐름을 정리하고 세부사항은 각각 따로 포스팅하여 상세하게 정리하려 한다.</p>
+
+<hr />
+
+<h3 id="1-에러의-시작--mapper파일과-dao-service-serviceimpl-클래스를-만듦">1. 에러의 시작 : mapper파일과 dao, service, serviceImpl 클래스를 만듦</h3>
+<ul>
+  <li>난 단지 클래스 몇개와 xml파일을 만들었을 뿐인데 서버가 구동이 되지 않아 멘붕이 왔다</li>
+  <li>일단 여기서 확인해야 할 사항으로는
+    <ol>
+      <li>db설정</li>
+      <li>어노테이션</li>
+      <li>mapper파일 오타</li>
+    </ol>
+  </li>
+</ul>
+
+<h4 id="1_1-db설정">1_1) db설정</h4>
+<ul>
+  <li>mapper의 db정보를 읽어오기 위해 Mybatis연동을 해야한다</li>
+  <li><code class="language-plaintext highlighter-rouge">pom.xml</code>에 <code class="language-plaintext highlighter-rouge">&lt;dependency&gt;</code> 속성을 이용하여 Mybatis에 필요한 의존성 등록</li>
+  <li><code class="language-plaintext highlighter-rouge">root-context.xml</code>에 <code class="language-plaintext highlighter-rouge">&lt;bean&gt;</code>과 <code class="language-plaintext highlighter-rouge">&lt;property&gt;</code> 속성을 이용하여 사용할 DB명과 계정, 비밀번호 입력</li>
+</ul>
+
+<h4 id="1_2-어노테이션-확인">1_2) 어노테이션 확인</h4>
+<ul>
+  <li>스프링은 <code class="language-plaintext highlighter-rouge">어노테이션</code>을 이용하여 하나의 컨트롤러 안에서 메소드 단위로 사용자의 요청을 처리할 수 있다.</li>
+  <li>어노테이션을 통해 Bean으로 등록하거나, Bean에 의존관계 주입을 하는 등의 역할이 가능하다</li>
+  <li>즉, 생성한 클래스에 맞게 어노테이션을 적어야 한다. 나의 경우 @Controller / @Service / @Repository 어노테이션 설정이 필요했음</li>
+</ul>
+
+<h3 id="2-unsatisfieddependencyexception과-nosuchbeandefinitionexception">2. UnsatisfiedDependencyException과 NoSuchBeanDefinitionException</h3>
+
+<h4 id="2_1-nosuchbeandefinitionexception">2_1) NoSuchBeanDefinitionException</h4>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">@Autowired</code> 어노테이션 사용 시 대상 객체가 메모리에 없을 때 발생한다고 한다.</li>
+  <li>즉, 해당 Autowired 사용 시 Bean 객체가 필요한데 그런 Bean을 찾을 수 없다는 것. 즉 bean 생성에 문제가 있다는 오류</li>
+  <li>따라서 해당 객체를 생성하는 xml 확인, 해당 클래스의 어노테이션 확인, dispatch-servlet.xml에 component-scan 확인, web.xml에 listener 확인</li>
+</ul>
+
+<h4 id="2_2-unsatisfieddependencyexception">2_2) UnsatisfiedDependencyException</h4>
+<ul>
+  <li>그래도 계속 동일한 에러가 발생하길래 이번에 이 에러를 자세히 보니 serviceImpl과 sqlSessionTemplate에서 에러가 난다고 되어있어서 어노테이션을 확인해보았지만 다 잘 써잇었음</li>
+  <li>xml문에 오타가 있어도 그럴 수 있다길래 xml문도 확인해보고 아얘 삭제도 해보았지만…</li>
+</ul>
+
+<hr />
+
+<ul>
+  <li>위의 것들을 다 확인 했는데도 여전히 에러가 뜨길래 어차피 코드 작성은 아직 안했으므로 새로 만든 파일들은 다 지우고 root-context의 db설정도 다 주석처리 해보았다. 그런데… 이번에는 404가 뜨는 것이 아닌가…? 멘붕</li>
+  <li>다른 컴퓨터에서 실행해보고 싶어서 내 브런치에 푸시 해두고 인강용 놋북에 풀 받아서 실행해보니… 놋북에서는 또 잘 돌아감????? 혼돈이 도가니</li>
+  <li>더 무서웠던 것은 전날에 내가 화면 로딩은 먼저 해보려고 Controller를 만들어서 작동 확인까지 하고 메인에 푸시를 해놨었는데 그걸 풀받은 동료는 갑자기 사진데이터가 안뜨는 현상이 발생… 대난장판😵</li>
+  <li>내가 만든 컨트롤러를 지워보라고 했더니 사진이 잘 뜬다고 하길래… 나도 컴퓨터로 돌아와 컨트롤러까지 지워봤는데 난 여전히 404 에러가 발생하고..🤬</li>
+  <li>다시 기도하면서 구글선생님에게 폭풍 검색 시작</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="3-요청된-리소스root명는-가용하지-않습니다">3. &lt;요청된 리소스/root명/는 가용하지 않습니다&gt;</h3>
+
+<h4 id="3_1-root-경로-확인">3_1) root 경로 확인</h4>
+<ul>
+  <li>나의 경우 팀원들과 경로를 똑같이 맞춰놨기 때문에 해당이 없었지만 <code class="language-plaintext highlighter-rouge">root 경로</code> 확인도 필요하다고 한다.</li>
+  <li>프로젝트 우클릭 - Properties - Web Project Settings의 context root 경로와</li>
+  <li>서버탭의 톰캣 더블클릭 - modules - Path의 경로가 일치해야 한다!
+ ❓ 구글링을 해보면 다들 context root를 /로 하라고 하던데 나중에 이유를 더 찾아봐야 겠다. 우리는 프로젝트명으로 했는데 보안상 문제가 되나?</li>
+</ul>
+
+<h4 id="3_2-톰캣-삭제-재설정-후-restart">3_2) 톰캣 삭제, 재설정 후 restart</h4>
+
+<h4 id="3_3-indexjsp가-아닌-프로젝트를-선택하여-실행">3_3) index.jsp가 아닌 프로젝트를 선택하여 실행</h4>
+<ul>
+  <li>view 폴더의 jsp 파일을 실행하면 외부에서 중요한 파일이 많은 WEB-INF에 직접 접근하는 식으로 되어서 스프링이 막아버린다.</li>
+  <li>따라서 프로젝트를 선택해서 실행하면 web.xml에서 DispatcherServlet이 servlet-context.xml로 요청을 전달하고</li>
+  <li>servlet-context에서 HandlerMapping과 HandlerAdaapter작업을 함
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">&lt;context:component-scan&gt;</code>으로 해당 클래스를 찾아 bean으로 등록</li>
+      <li><code class="language-plaintext highlighter-rouge">&lt;annotation-driven /&gt; </code>으로 URL 매핑을 하여 지정된 URL을 생성(나의 경우는 index 앞에 /WEB-INF/views, 뒤에 .jsp를 붙여 실행시켜 주는 것이다.)</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="3_4-maven-라이브러리-재설치">3_4) maven 라이브러리 재설치</h4>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">C:\Users\계정명\.m2</code> 폴더의 모든 폴더를 삭제 후 STS 실행하면 자동으로 메이븐 라이브러리 재설치</li>
+  <li>또는 pom.xml의 <org.springframework-version> 버전을 수정하여 메이븐 라이브러리를 재설치
+ 👉 프로젝트 탭에서 Maven-Dependencies 라이브러리들 잘 설치 됐는지 확인 가능</org.springframework-version></li>
+</ul>
+
+<h4 id="3_5-maven-update">3_5) maven update</h4>
+<ul>
+  <li>프로젝트 우클릭-Maven-Update Project</li>
+</ul>
+
+<h4 id="3_6-내-컴퓨터에-사용자-이름이-한글도-되어-있는데-혹시-이게-문제인가-싶어서-이참에-사용자-이름도-영어로-바꿈-하지만-실패ㅠㅠ">3_6) 내 컴퓨터에 사용자 이름이 한글도 되어 있는데 혹시 이게 문제인가? 싶어서 이참에 사용자 이름도 영어로 바꿈… 하지만 실패ㅠㅠ</h4>
+
+<p><br /></p>
+
+<h3 id="4-틀린그림찾기">4. 틀린그림찾기..</h3>
+<ul>
+  <li>여기까지 다 해도 컴퓨터에서는 계속 안되길래 정말 컴퓨터와 놋북 동시에 프로젝트를 켜두고 실행파일 하나하나 비교를 하고 오타를 찾아다녔다^^:;(틀린그림찾기를 좋아하긴 함..)</li>
+  <li>그러다가 pom.xml에서 빨간줄을 발견! <strong>Missing artifact oracle:ojdbc6:jar:11.2.0.3</strong></li>
+  <li>1_1)에서 mybatis의존성 주입을 할 때 <code class="language-plaintext highlighter-rouge">ojdbc6</code>을 사용하는 경우 maven에서 라이브러리 제공을 자동으로 안해줘서 pom.xml에 사설 라이브러리를 등록해야 했던 것!</li>
+  <li>나의 경우 pom.xml에 다음 코드를 추가해줌
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;repositories&gt;</span>
+     <span class="nt">&lt;repository&gt;</span>
+         <span class="nt">&lt;id&gt;</span>Datanucleus<span class="nt">&lt;/id&gt;</span>
+         <span class="nt">&lt;url&gt;</span>http://www.datanucleus.org/downloads/maven2/<span class="nt">&lt;/url&gt;</span>
+     <span class="nt">&lt;/repository&gt;</span>
+ <span class="nt">&lt;/repositories&gt;</span>
+</code></pre></div>    </div>
+    <p>여기까지 하고 디버깅 실행해봤더니 또 다른 오류 발생! 그래도 404가 아니라 기쁜 마음^^;;</p>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="5-orgspringframeworkwebcontextcontextloaderlistener">5. org.springframework.web.context.ContextLoaderListener</h3>
+
+<h4 id="5_1-maven을-업뎃한-후-발생할-수-있는-문제">5_1) Maven을 업뎃한 후 발생할 수 있는 문제</h4>
+<ul>
+  <li>2_5)의 방법으로 메이븐 업뎃 시 등록된 <code class="language-plaintext highlighter-rouge">Maven Dependencies 라이브러리</code>가 삭제되면 해당 오류가 발생한다고 함!</li>
+  <li>프로젝트 우클릭 - properties - Deployment Assembly - Add - java Build Path Entries - MavenDependencies-Apply를 추가</li>
+</ul>
+
+<p>👉 이렇게 길고 긴 하루의 여정으로 디버깅에 성공하였다ㅠㅠㅠ!! 아쉬웠던 점은 처음에 오류가 났을 때 좀 더 빨리 설정파일에 접근했으면 어땟을까 하는 마음? 계속 어노테이션과 mapper 파일만 봤는데 스프링은 xml 설정파일에서 모든 것을 관리하기 때문에 전체적으로 유기적인 연결고리로 이어져있는 느낌? 그래서 오류를 찾기도 매우 어려운 것 같다. 앞으로는 한번 훝어보고 설정파일을 빠르게 확인하는 습관을 들여야겠다!</p>
+:ET

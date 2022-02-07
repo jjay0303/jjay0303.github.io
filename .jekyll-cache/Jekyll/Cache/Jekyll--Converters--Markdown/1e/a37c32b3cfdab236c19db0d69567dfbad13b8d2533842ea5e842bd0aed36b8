@@ -1,0 +1,11 @@
+I"<h2 id="ora-00942-table-or-view-does-not-exist-에러-해결법">ora-00942: table or view does not exist 에러 해결법</h2>
+
+<h3 id="진짜-테이블이나-뷰가-없음--테이블뷰-이름-오타-확인">진짜 테이블이나 뷰가 없음 =&gt; 테이블,뷰 이름 오타 확인</h3>
+
+<h3 id="해당-테이블에-권한이-없음--테이블에-권한-부여">해당 테이블에 권한이 없음 =&gt; 테이블에 권한 부여</h3>
+
+<h3 id="db에-연결이-안됨--root-contextxml에서-db-계정-확인">DB에 연결이 안됨 =&gt; root-context.xml에서 DB 계정 확인</h3>
+
+<h3 id="테이블-앞에-소유자-명시하여-select--select--from-소유자테이블명">테이블 앞에 소유자 명시하여 select =&gt; select * from 소유자.테이블명;</h3>
+
+:ET
