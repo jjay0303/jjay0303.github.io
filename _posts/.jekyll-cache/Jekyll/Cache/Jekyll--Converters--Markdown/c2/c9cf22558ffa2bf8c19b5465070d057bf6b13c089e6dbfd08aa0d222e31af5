@@ -1,0 +1,84 @@
+I"]<h2 id="spring-framework란">Spring FrameWork란?</h2>
+<ul>
+  <li>자바 플랩폼을 위한 오픈소스 애플리케이션 프레임워크로 Spring이라고도 불림</li>
+  <li>동적 웹사이트 개발을 위한 여러 서비스를 제공하며 전자정부 표준프레임워크의 기반 기술</li>
+</ul>
+
+<h3 id="특징">특징</h3>
+
+<table>
+  <tbody>
+    <tr>
+      <td>IOC<br />(Inversion of Control)<br />제어반전</td>
+      <td>컨트롤의 제어권이 프레임워크에 있음. 개발자는 만들어둔 자원을 호출해서 사용</td>
+    </tr>
+    <tr>
+      <td>DI<br />(Dependency Injection)<br />의존성주입</td>
+      <td>설정파일이나 어노테이션으로 객체간 의존관계를 설정해 개발자가 객체 생성 X</td>
+    </tr>
+    <tr>
+      <td>POJO<br />(Plain Old Java Object)</td>
+      <td>특정 라이브러리를 사용할 필요가 없어 개발이 쉽고 기존 라이브러리의 지원이 용이</td>
+    </tr>
+    <tr>
+      <td>Spring AOP<br />(Aspect Oriented Programming)<br />관점지향 프로그래밍</td>
+      <td>트랜잭션, 로깅, 보안 등 공통으로 필요로 하는 기능을 분리하여 관리</td>
+    </tr>
+    <tr>
+      <td>Spring JDBC</td>
+      <td>mybatis 같은 DB처리를 위한 영속성 프레임워크와 연결할 수 있는 인터페이스 제공</td>
+    </tr>
+    <tr>
+      <td>Spring MVC</td>
+      <td>MVC패턴을 통해 Model, View, Controller 사이의 의존관계를 DI 컨테이너에서 관리하여 개발자가 아닌서버가 객체를 관리함</td>
+    </tr>
+    <tr>
+      <td>PSA<br />(Portable Service Abstraction)</td>
+      <td>추상화 계층을 사용하여 개발자에게 편의성을 제공해주는 Service Abstraction을 다른 기술 스택으로 바꿀 수 있는 확장성을 제공</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="스프링-설정-파일">스프링 설정 파일</h3>
+<ol>
+  <li>web.xml
+    <ul>
+      <li>서버 구동시 web.xml이 제일 먼저 읽히는 파일로 여러 xml 파일을 인식하도록 각종 설정 정의</li>
+      <li>web.xml에서 사용자의 모든 요청을 appServlet이 받아서 DispatcherServlet으로 처리하도록 설정 =&gt; 즉, servlet을 일일히 만들 필요 없이 하나의 servlet으로 모든 요청을 처리하게 해줌</li>
+    </ul>
+  </li>
+  <li>root-context.xml
+    <ul>
+      <li>서버 구동과 동시에 바로 셋팅할 내용들을 작성하면 됨(bean으로 등록)
+주로 DB연결설정, 트랜잭션 처리, 내외부 모듈 연동 등 비즈니스 로직 관련 설정<br />즉, Back-End의 설정파일</li>
+      <li>sqlSessionFactory, sqlSession 클래스 등록 등등</li>
+    </ul>
+  </li>
+  <li>pom.xml
+    <ul>
+      <li>Maven의 빌드 정보를 담고 있는 파일로 project, properties, repositories, dependenties, build 등의 태그로 이루어져 있음</li>
+    </ul>
+  </li>
+  <li>mybatis-config.xml
+    <ul>
+      <li>Dto 객체의 정보를 설정하는 파일로 typeAlias와 mapper 태그로 이루어져있음
+  =&gt; 순수 mybatis일 때는 environment와 dataSource로 DB접속정보를 작성해야 했지만 spring-mybatis는 가장 먼저 읽히는 root-context에 db접속정보 등록함</li>
+    </ul>
+  </li>
+  <li>servlet-context.xml
+    <ul>
+      <li>MVC Model의 View와 관련된 객체를 정의하는 파일. 쉽게말해 Front-End 설정파일</li>
+      <li>사용자가 url요청시 HandlerMapping을 통해 요청 url에 해당하는 Controller를 실행(단, 해당 Controller가 빈에 등록되있어야함)</li>
+      <li><code class="language-plaintext highlighter-rouge">&lt;annotation-driven /&gt;</code>과 <code class="language-plaintext highlighter-rouge">&lt;context:component-scan base-package="com.kh.spring" /&gt;</code> 태그를 이용하여 annotation으로 bin을 등록할 수 있게 해줌</li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="출처">출처</h4>
+
+<ul>
+  <li>수업자료</li>
+  <li><a href="https://cluster-taek.tistory.com/entry/webxml-%EA%B3%BC-servlet-contextxml-%EA%B3%BC-root-contextxml">https://cluster-taek.tistory.com/entry/webxml-%EA%B3%BC-servlet-contextxml-%EA%B3%BC-root-contextxml</a></li>
+</ul>
+
+:ET
