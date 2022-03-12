@@ -253,8 +253,12 @@ comments: true
         </div>
 ```
 
-	![1](https://user-images.githubusercontent.com/93863500158005919-867d2c34-00f7-4d3d-9db8-d9f5782d60d4.JPG)
-	![2](https://user-images.githubusercontent.com/93863500/158005959-fcbdf04f-4510-4fa1-a0eb-e97c25e0c310.JPG)
+
+### 6. 결과 화면
+
+![1](https://user-images.githubusercontent.com/93863500158005919-867d2c34-00f7-4d3d-9db8-d9f5782d60d4.JPG)
+
+![2](https://user-images.githubusercontent.com/93863500/158005959-fcbdf04f-4510-4fa1-a0eb-e97c25e0c310.JPG)
 
 
 #### 출처
