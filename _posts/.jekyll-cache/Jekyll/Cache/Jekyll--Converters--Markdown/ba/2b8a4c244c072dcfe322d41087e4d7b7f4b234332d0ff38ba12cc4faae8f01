@@ -1,0 +1,83 @@
+I"�<style>
+	h3, table th{
+		background-color:#D2D2FF;
+		color: gray;
+	}
+</style>
+
+<h3> MyBatis란? </h3>
+
+<ul>
+  <li>자바의 관계형 데이터베이스 프로그래밍을 보다 쉽게 하기 위한 프레임워크</li>
+  <li>자바에서 제공하는 JDBC보다 생산성을 높히고 사용을 편리하게 함
+    <blockquote>
+      <p>❓프레임워크란 : 소프트웨어의 구체적인 설계와 구현을 재사용이 가능하게끔 협업화된 형태로 클래스들을 제공하는 것. 즉, 구현할 소프트웨어의 뼈대/프레임이라고 할 수 있음.</p>
+    </blockquote>
+  </li>
+  <li>JDBC와 MyBatis의 차이</li>
+</ul>
+<table>
+		<tr align="center">
+			<th>JDBC</th>
+			<th>MyBatis</th>
+		</tr>
+		<tr align="center">
+			<td>commit과 rollback 직접 수행</td>
+			<td>속성 지정시 commit과 rollback 자동 수행 가능</td>
+		</tr>
+		<tr align="center">
+			<td>PreparedStatement 직접 생성하고 처리함</td>
+			<td>내부적으로 PreparedStatement 처리</td>
+		</tr>
+		<tr align="center">
+			<td>PreparedStatement의 set메소드도 직접 수행
+				=&gt; 즉 select문의 결과값을 수작업으로 담아야함</td>
+			<td>#{}로 mapper에서 결과값을 바로 setter처리후 반환
+				=&gt; select문의 결과값을 필요한 객체나 List로 바로 반환 가능</td>
+		</tr>
+	</table>
+<p><br /></p>
+
+<h3> 2. MyBatis 설정순서 </h3>
+
+<p><strong>1. mybatis-config.xml</strong><br /></p>
+
+<ul>
+  <li>
+    <p>setting : mybatis 구동시 선언할 설정들을 작성하는 영역<br />
+<code class="language-plaintext highlighter-rouge">&lt;setting value="NULL" name="jdbcTypeForNull" /&gt;</code> -&gt; 전달된 데이터 null일 경우 빈칸이 아닌 null로 인식(반드시 대문자로 입력)</p>
+  </li>
+  <li>
+    <p>typeAlias : VO/DTO 클래스들의 풀클래스명을 단순한 클래스명으로 사용하기 위해 별칭 등록하는 영역</p>
+  </li>
+  <li>
+    <p>environment : mybatis에서 연동할 DB정보 등록 / default : 기본적으로 연결할 id <br />
+  <code class="language-plaintext highlighter-rouge">&lt;transactionManager type="JDBC" /&gt;</code> : JDBC와 MANAGED 둘 중 하나 선택할 수 있음(JDBC:수동commit / MANAGED:자동commit)
+<br /></p>
+  </li>
+  <li>dataSource : ConnectionPool 사용 여부
+    <ul>
+      <li>ConnectionPool : Connection객체를 담아둘 수 있는 영역으로 한번 생성된 Connection 객체를 담아두면 재사용 가능(POOLDE:사용 / UNPOOLED:미사용)<br />
+  <code class="language-plaintext highlighter-rouge">&lt;property name="키값" value="경로 또는 벨류값" /&gt;</code>으로 필요한 객체 등록해서 사용
+<br /><br /></li>
+    </ul>
+  </li>
+  <li>mapper : 실행할 sql문들을 기록해둔 mapper파일들을 등록<br />
+  <code class="language-plaintext highlighter-rouge">&lt;mapper resource="mapper파일경로" /&gt;</code>
+<br /><br /></li>
+</ul>
+
+<p><strong>2. Template.java</strong><br /></p>
+
+<p>(1) mybatis-config.xml 파일 읽어들여서 해당 DB와 접속된 SqlSession객체 생성해서 반환<br />
+<code class="language-plaintext highlighter-rouge">InputStream stream = Resources.getResourceAsStream(resource)</code><br /></p>
+
+<p>(2) SqlSessionFactoryBuilder -&gt; SqlSessionFactory -&gt; SqlSession 생성<br />
+<code class="language-plaintext highlighter-rouge">SqulSession sqlSession = new SqlSessionFactoryBuilder().build(stream).openSession(false)</code></p>
+<ul>
+  <li>openSession() : 자동커밋 여부 / 기본값 false 
+<br />
+<br /></li>
+</ul>
+
+:ET

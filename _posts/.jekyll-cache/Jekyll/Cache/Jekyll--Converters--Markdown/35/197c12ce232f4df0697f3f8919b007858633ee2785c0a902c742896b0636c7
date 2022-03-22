@@ -1,0 +1,291 @@
+I"�g<h2 id="게시판의-페이징바를-구현해보자">게시판의 페이징바를 구현해보자</h2>
+
+<p>게시판 구현 시 수많은 데이터 중 해당 화면에 필요한 데이터만 뽑아서 출력하고 다루기 위해 페이징처리가 필요하다. 
+만약 페이징 처리를 하지 않으면 게시글의 갯수가 아주 많을 경우 로딩 시간이 매우 길어지고 보기도 불편할 것이다.
+한 페이지에 몇 개의 게시글을 출력할지, 페이징바를 몇 번까지 보여줄지를 정해서 페이징바로 게시글을 정렬하면 깔끔한 게시판을 유지할 수 있다.
+이러한 페이징바를 STS에서 Mybatis를 이용해 아래 순서로 구현해보자.</p>
+
+<ol>
+  <li>Pagination 클래스 생성</li>
+  <li>총 게시글 개수 확인</li>
+  <li>controller, Service, Dao에 게시글 읽어올 메소드 추가</li>
+  <li>게시글 목록 조회를 위한 쿼리문 작성</li>
+  <li>화면단에서 데이터 넘겨받아 출력하기</li>
+</ol>
+
+<h3 id="1-pagination-클래스-생성">1. Pagination 클래스 생성</h3>
+
+<ol>
+  <li>
+    <p>페이징처리를 하기 위해 필요한 요소 나열</p>
+
+    <ul>
+      <li>
+        <p>총 게시글 수 listCount</p>
+      </li>
+      <li>
+        <p>현재 페이지 = 사용자 요청 페이지 currentPage</p>
+      </li>
+      <li>
+        <p>페이징바의 페이지 수 단위(페이징바를 몇 번 단위로 보여줄지) pageLimit</p>
+      </li>
+      <li>
+        <p>페이지당 보여질 게시글 수 boardLimit</p>
+      </li>
+      <li>가장 마지막 페이지(총 페이지 수) maxPage
+        <ul>
+          <li>게시글이 8개인 게시판에서 게시글을 10개씩 보여주고 싶을 때 <br />
+  =&gt; 총 페이지 수는 1페이지</li>
+          <li>게시글이 15개인 게시판에서 게시글을 10개씩 보여주고 싶을 때 <br />
+  =&gt; 총 페이지 수는 2페이지<br /></li>
+          <li>
+            <p>즉 총 페이지수는 <strong><em>총게시글수 / 페이지당 보여질 게시글 수</em></strong>이다. <br /></p>
+          </li>
+          <li>
+            <p>하지만 int형으로 계산 시 15/10 = 1이므로 0.5가 날라가 버린다 <br />
+  =&gt; <strong><em>변수 하나를 실수형으로 형변환</em></strong> 후 계산 하면 1.5</p>
+          </li>
+          <li>
+            <p>여기서 페이징바 숫자는 무조건 정수형이므로 소숫점이 나올 시 무조건 올림처리를 해줌
+  =&gt; <strong><em>Math.ceil함수 이용</em></strong></p>
+          </li>
+          <li>마지막으로 올림처리 한 수를 정수형으로 형변환</li>
+        </ul>
+
+        <p>👉 즉, maxPage는 <strong>(int)Math.ceil((double)listCount/boardLimit)</strong></p>
+      </li>
+      <li>페이징바의 시작수 startPage
+        <ul>
+          <li>pageLimit이 10일 경우 =&gt; 1, 11, 21…</li>
+          <li>
+            <p>pageLimit이 5일 경우 =&gt; 1, 6, 11, 16…
+  =&gt; <strong><em>n x pageLimit + 1</em></strong></p>
+          </li>
+          <li>pageLimit이 10일 때 currentPage가 1~10일 경우 =&gt; 시작수는 1 =&gt; n x pageLimit = 0 =&gt; n=0</li>
+          <li>pageLimit이 10일 때 currentPage가 11~20일 경우 =&gt; 시작수는 2 =&gt; n x pageLimit = 1 =&gt; n=1
+  =&gt; <strong><em>n = currentPage - 1 / pageLimit</em></strong></li>
+        </ul>
+
+        <p>👉 즉, startPage는 <strong>currentPage - 1 / pageLimit x pageLimit + 1</strong></p>
+      </li>
+      <li>페이징바의 끝 수endPage
+        <ul>
+          <li>
+            <p>pageLimit이 10일 경우 =&gt; 10, 20, 30…
+  👉 즉, endPage는 <strong>startPabe + pageLimit - 1</strong></p>
+          </li>
+          <li>
+            <p>만약 startPage가 11일 때 endPage는 20이다. 하지만 maxPage가 20보다 작다면 maxPage = endPage가 되야함
+  👉 즉, <strong>maxPage &lt; endPage 이면 endPage=maxPage</strong>라는 조건을 추가해줌</p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <p>즉, 총 게시글이 28개이고 한 화면에 5개 씩, 페이지 수 단위를 5씩 해서 페이징바를 구현할 경우
+=&gt; 페이징바의 시작수 : 1 / 끝 수 : 6 / 총 페이지 수 :  6 
+<br /></p>
+  </li>
+  <li>
+    <p>pagination VO 클래스와 Pagenation 클래스 생성
+위에서 나열한 6개의 필드를 가지는 VO클래스와 해당 필드값을 계산하는 클래스를 만들자
+(여러개의 게시판에서 공통으로 사용가능한 기능이므로 클래스를 따로 만들었다.)</p>
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">PageInfo</span> <span class="o">{</span>
+
+     <span class="kd">private</span> <span class="kt">int</span> <span class="n">listCount</span><span class="o">;</span>		<span class="c1">// 현재 총 게시글 갯수</span>
+     <span class="kd">private</span> <span class="kt">int</span> <span class="n">currentPage</span><span class="o">;</span>	<span class="c1">// 현재페이지 = 사용자가 요청한 페이지</span>
+     <span class="kd">private</span> <span class="kt">int</span> <span class="n">pageLimit</span><span class="o">;</span>		<span class="c1">// 하단 페이징바의 페이지 최대 갯수(몇 개 단위)</span>
+     <span class="kd">private</span> <span class="kt">int</span> <span class="n">boardLimit</span><span class="o">;</span>		<span class="c1">// 페이지당 보여질 게시글의 수</span>
+     <span class="kd">private</span> <span class="kt">int</span> <span class="n">maxPage</span><span class="o">;</span>		<span class="c1">// 가장 마지막 페이지(총 페이지 수)</span>
+     <span class="kd">private</span> <span class="kt">int</span> <span class="n">startPage</span><span class="o">;</span>		<span class="c1">// 페이징바의 시작수</span>
+     <span class="kd">private</span> <span class="kt">int</span> <span class="n">endPage</span><span class="o">;</span>		<span class="c1">// 페이징바의 끝수</span>
+		
+     <span class="kd">public</span> <span class="nf">PageInfo</span><span class="o">()</span> <span class="o">{}</span>
+
+     <span class="kd">public</span> <span class="nf">PageInfo</span><span class="o">(</span><span class="kt">int</span> <span class="n">listCount</span><span class="o">,</span> <span class="kt">int</span> <span class="n">currentPage</span><span class="o">,</span> <span class="kt">int</span> <span class="n">pageLimit</span><span class="o">,</span> <span class="kt">int</span> <span class="n">boardLimit</span><span class="o">,</span> <span class="kt">int</span> <span class="n">maxPage</span><span class="o">,</span> <span class="kt">int</span> <span class="n">startPage</span><span class="o">,</span>
+             <span class="kt">int</span> <span class="n">endPage</span><span class="o">)</span> <span class="o">{</span>
+         <span class="kd">super</span><span class="o">();</span>
+         <span class="k">this</span><span class="o">.</span><span class="na">listCount</span> <span class="o">=</span> <span class="n">listCount</span><span class="o">;</span>
+         <span class="k">this</span><span class="o">.</span><span class="na">currentPage</span> <span class="o">=</span> <span class="n">currentPage</span><span class="o">;</span>
+         <span class="k">this</span><span class="o">.</span><span class="na">pageLimit</span> <span class="o">=</span> <span class="n">pageLimit</span><span class="o">;</span>
+         <span class="k">this</span><span class="o">.</span><span class="na">boardLimit</span> <span class="o">=</span> <span class="n">boardLimit</span><span class="o">;</span>
+         <span class="k">this</span><span class="o">.</span><span class="na">maxPage</span> <span class="o">=</span> <span class="n">maxPage</span><span class="o">;</span>
+         <span class="k">this</span><span class="o">.</span><span class="na">startPage</span> <span class="o">=</span> <span class="n">startPage</span><span class="o">;</span>
+         <span class="k">this</span><span class="o">.</span><span class="na">endPage</span> <span class="o">=</span> <span class="n">endPage</span><span class="o">;</span>
+     <span class="o">}</span>
+
+     <span class="c1">// setter/getter 메소드는 생략~~</span>
+
+ <span class="o">}</span>	
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Pagination</span> <span class="o">{</span>
+
+	<span class="kd">public</span> <span class="kd">static</span> <span class="nc">PageInfo</span> <span class="nf">calPageInfo</span><span class="o">(</span><span class="kt">int</span> <span class="n">listCount</span><span class="o">,</span> <span class="kt">int</span> <span class="n">currentPage</span><span class="o">,</span> <span class="kt">int</span> <span class="n">pageLimit</span><span class="o">,</span> <span class="kt">int</span> <span class="n">boardLimit</span><span class="o">)</span> <span class="o">{</span>
+		
+		<span class="kt">int</span> <span class="n">maxPage</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span><span class="nc">Math</span><span class="o">.</span><span class="na">ceil</span><span class="o">((</span><span class="kt">double</span><span class="o">)</span><span class="n">listCount</span><span class="o">/</span><span class="n">boardLimit</span><span class="o">);</span>
+		<span class="kt">int</span> <span class="n">startPage</span> <span class="o">=</span> <span class="o">(</span><span class="n">currentPage</span><span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="o">/</span> <span class="n">pageLimit</span> <span class="o">*</span> <span class="n">pageLimit</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+		<span class="kt">int</span> <span class="n">endPage</span> <span class="o">=</span> <span class="n">startPage</span> <span class="o">+</span> <span class="n">pageLimit</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
+		<span class="k">if</span><span class="o">(</span><span class="n">endPage</span> <span class="o">&gt;</span> <span class="n">maxPage</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">endPage</span> <span class="o">=</span> <span class="n">maxPage</span><span class="o">;</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="k">new</span> <span class="nf">PageInfo</span><span class="o">(</span><span class="n">listCount</span><span class="o">,</span> <span class="n">currentPage</span><span class="o">,</span> <span class="n">pageLimit</span><span class="o">,</span> <span class="n">boardLimit</span><span class="o">,</span> <span class="n">maxPage</span><span class="o">,</span> <span class="n">startPage</span><span class="o">,</span> <span class="n">endPage</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="2-총-게시글-갯수를-구하기">2. 총 게시글 갯수를 구하기</h3>
+<p>게시판에 있는 게시글 총 갯수를 COUNT를 이용하여 구함</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nt">&lt;select</span> <span class="na">id=</span><span class="s">"selectListCount"</span> <span class="na">resultType=</span><span class="s">"_int"</span><span class="nt">&gt;</span>
+		select count(*)
+		  from notice
+	<span class="nt">&lt;/select&gt;</span>
+</code></pre></div></div>
+
+<h3 id="3-controller-service-dao에-게시글-읽어올-메소드-추가">3. Controller, Service, Dao에 게시글 읽어올 메소드 추가</h3>
+
+<ol>
+  <li>Controller
+컨트롤러에서 Pagination 클래스로 listCount, currentPage, boardLimit, pageLimit을 매개변수로 넘겨서 pi정보를 받아온 후 사용할 게시판의 리스트를 받아올 함수에 pi를 넘겨서 현재 페이지에 해당하는 게시글 목록 받아옴
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"boardList"</span><span class="o">)</span>
+ <span class="kd">public</span> <span class="nc">String</span> <span class="nf">boardList</span><span class="o">(</span><span class="nd">@RequestParam</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="s">"cpage"</span><span class="o">,</span> <span class="n">defaultValue</span><span class="o">=</span><span class="s">"1"</span><span class="o">)</span> <span class="kt">int</span> <span class="n">currentPage</span><span class="o">,</span> <span class="nc">Model</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+     <span class="kt">int</span> <span class="n">listCount</span> <span class="o">=</span> <span class="n">hService</span><span class="o">.</span><span class="na">selectListCount</span><span class="o">();</span>
+     <span class="nc">PageInfo</span> <span class="n">pi</span> <span class="o">=</span> <span class="nc">Pagination</span><span class="o">.</span><span class="na">getPageInfo</span><span class="o">(</span><span class="n">listCount</span><span class="o">,</span> <span class="n">currentPage</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>  
+                                         <span class="c1">// boardLimit과 pageLimit을 직접 숫자로 넘겨줌</span>
+     <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">Notice</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="n">hService</span><span class="o">.</span><span class="na">selectList</span><span class="o">(</span><span class="n">pi</span><span class="o">);</span>
+
+     <span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">"pi"</span><span class="o">,</span> <span class="n">pi</span><span class="o">);</span>
+     <span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">"list"</span><span class="o">,</span> <span class="n">list</span><span class="o">);</span>		
+     <span class="k">return</span> <span class="s">"boareList"</span><span class="o">;</span>
+ <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Service, ServiceImpl
+    <ul>
+      <li>Service
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kt">int</span> <span class="nf">selectListCount</span><span class="o">();</span>
+ <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">Notice</span><span class="o">&gt;</span> <span class="nf">selectList</span><span class="o">(</span><span class="nc">PageInfo</span> <span class="n">pi</span><span class="o">);</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<ul>
+  <li>ServiceImpl
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">selectListCount</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="n">hDao</span><span class="o">.</span><span class="na">selectListCount</span><span class="o">(</span><span class="n">sqlSession</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">Notice</span><span class="o">&gt;</span> <span class="nf">selectList</span><span class="o">(</span><span class="nc">PageInfo</span> <span class="n">pi</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="n">hDao</span><span class="o">.</span><span class="na">selectList</span><span class="o">(</span><span class="n">sqlSession</span><span class="o">,</span> <span class="n">pi</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<ol>
+  <li>Dao
+    <ul>
+      <li>Dao에서 Mybatis의 RowBounds를 이용</li>
+      <li>RowBounds는 Mybatis에서 제공하는 API로 offset과 limit를 이용한다.</li>
+    </ul>
+    <ul>
+      <li>offset : 시작점에서 얼마나 떨어진 데이터인지(몇 개의 게시글을 건너뛰고 조회할건지)</li>
+      <li>limit : 몇 개의 값을 가져올지</li>
+      <li>offset + limit만큼의 데이터를 가져온 뒤 offset만큼 건너뛰고 출력한다. (데이터가 많다면 속도가 느려질 수도 있겠다)
+<img src="https://user-images.githubusercontent.com/93863500/158008645-4191b310-e34e-49cc-af47-73b2bcce511e.JPG" alt="3" /></li>
+    </ul>
+  </li>
+</ol>
+
+<ul>
+  <li>boardLimit이 5일 때
+    <ul>
+      <li>currentPage=1 -&gt; 1~5 조회		offset : 0		limit : 5</li>
+      <li>currentPage=2 -&gt; 6~10 조회		offset : 5		limit : 5</li>
+      <li>currentPage=3 -&gt; 11~15 조회		offset : 10		limit : 5</li>
+    </ul>
+
+    <p>👉 즉, offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+          limit = pi.getBoardLimit();</p>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="kd">public</span> <span class="kt">int</span> <span class="nf">selectListCount</span><span class="o">(</span><span class="nc">SqlSessionTemplate</span> <span class="n">sqlSession</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">sqlSession</span><span class="o">.</span><span class="na">selectOne</span><span class="o">(</span><span class="s">"helpMapper.selectListCount"</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">Notice</span><span class="o">&gt;</span> <span class="nf">selectList</span><span class="o">(</span><span class="nc">SqlSessionTemplate</span> <span class="n">sqlSession</span><span class="o">,</span> <span class="nc">PageInfo</span> <span class="n">pi</span><span class="o">){</span>
+		<span class="kt">int</span> <span class="n">offset</span> <span class="o">=</span> <span class="o">(</span><span class="n">pi</span><span class="o">.</span><span class="na">getCurrentPage</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">*</span> <span class="n">pi</span><span class="o">.</span><span class="na">getBoardLimit</span><span class="o">();</span>
+		<span class="kt">int</span> <span class="n">limit</span> <span class="o">=</span> <span class="n">pi</span><span class="o">.</span><span class="na">getBoardLimit</span><span class="o">();</span>
+		<span class="nc">RowBounds</span> <span class="n">rowBounds</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RowBounds</span><span class="o">(</span><span class="n">offset</span><span class="o">,</span> <span class="n">limit</span><span class="o">);</span>
+		
+		<span class="k">return</span> <span class="o">(</span><span class="nc">ArrayList</span><span class="o">)</span><span class="n">sqlSession</span><span class="o">.</span><span class="na">selectList</span><span class="o">(</span><span class="s">"helpMapper.selectList"</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">rowBounds</span><span class="o">);</span>
+	<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="4-게시글-목록-조회를-위한-쿼리문-작성">4. 게시글 목록 조회를 위한 쿼리문 작성</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nt">&lt;select</span> <span class="na">id=</span><span class="s">"selectList"</span> <span class="na">resultMap=</span><span class="s">"noticeResult"</span><span class="nt">&gt;</span>
+		select
+		       nno
+		     , mno
+		     , category
+		     , n_title
+		     , count
+		     , to_char(create_date, 'YYYY-MM-DD') as "create_date"
+		  from notice
+		 order
+		    by nno desc
+	<span class="nt">&lt;/select&gt;</span>
+</code></pre></div></div>
+
+<h3 id="5-화면단에서-데이터-넘겨받아-출력하기">5. 화면단에서 데이터 넘겨받아 출력하기</h3>
+
+<div class="language-jsp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"paging"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"pagination"</span><span class="nt">&gt;</span>
+				<span class="nt">&lt;c:choose&gt;</span>
+					<span class="nt">&lt;c:when </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span> <span class="n">pi</span><span class="o">.</span><span class="na">currentPage</span> <span class="n">eq</span> <span class="mi">1</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>
+						<span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"page-item disabled"</span><span class="nt">&gt;</span>			// 1페이지 클릭한 경우 <span class="nt">&lt;</span><span class="err">&lt;</span> <span class="na">로</span> <span class="na">표시되고</span> <span class="na">클릭</span> <span class="na">불가하게</span>
+							<span class="err">&lt;</span><span class="na">a</span> <span class="na">class=</span><span class="s">"page-link"</span> <span class="na">href=</span><span class="s">"#"</span> <span class="na">aria-label=</span><span class="s">"Previous"</span><span class="nt">&gt;&lt;span</span> <span class="na">aria-hidden=</span><span class="s">"true"</span><span class="nt">&gt;</span><span class="ni">&amp;laquo;</span><span class="nt">&lt;/span&gt;&lt;/a&gt;</span>
+						<span class="nt">&lt;/li&gt;</span>
+					<span class="nt">&lt;/c:when&gt;</span>
+					<span class="nt">&lt;c:otherwise&gt;</span>							// 1페이지 아닐 경우 Previous로 표시되고 현재 페이지 - 1인 페이지 출력
+						<span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"page-item"</span><span class="nt">&gt;&lt;a</span> <span class="na">class=</span><span class="s">"page-link"</span> <span class="na">href=</span><span class="s">"helpList.he?cpage=${ pi.currentPage-1 }"</span><span class="nt">&gt;</span>Previous<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+					<span class="nt">&lt;/c:otherwise&gt;</span>
+				<span class="nt">&lt;/c:choose&gt;</span>
+									// 시작페이지부터 끝페이지에 해당하는 숫자 반복문으로 출력하고 클릭 시 해당 페이지 출력
+				<span class="nt">&lt;c:forEach </span><span class="na">var=</span><span class="s">"p"</span><span class="na"> begin=</span><span class="s">"</span><span class="si">${</span> <span class="n">pi</span><span class="o">.</span><span class="na">startPage</span> <span class="si">}</span><span class="s">"</span><span class="na"> end=</span><span class="s">"</span><span class="si">${</span> <span class="n">pi</span><span class="o">.</span><span class="na">endPage</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>
+					<span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"page-item"</span><span class="nt">&gt;&lt;a</span> <span class="na">class=</span><span class="s">"page-link"</span> <span class="na">href=</span><span class="s">"helpList.he?cpage=${ p }"</span><span class="nt">&gt;</span>${ p }<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+				<span class="nt">&lt;/c:forEach&gt;</span>
+				
+				<span class="nt">&lt;c:choose&gt;</span>			// 최대페이지를 클릭한 경우 &gt;&gt;로 표시되고 클릭 불가하게
+					<span class="nt">&lt;c:when </span><span class="na">test=</span><span class="s">"</span><span class="si">${</span> <span class="n">pi</span><span class="o">.</span><span class="na">currentPage</span> <span class="n">eq</span> <span class="n">pi</span><span class="o">.</span><span class="na">maxPage</span> <span class="si">}</span><span class="s">"</span><span class="nt">&gt;</span>
+						<span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"page-item disabled"</span><span class="nt">&gt;</span>
+							<span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">"page-link"</span> <span class="na">href=</span><span class="s">"#"</span> <span class="na">aria-label=</span><span class="s">"Next"</span><span class="nt">&gt;&lt;span</span> <span class="na">aria-hidden=</span><span class="s">"true"</span><span class="nt">&gt;</span><span class="ni">&amp;raquo;</span><span class="nt">&lt;/span&gt;&lt;/a&gt;</span>
+						<span class="nt">&lt;/li&gt;</span>
+					<span class="nt">&lt;/c:when&gt;</span>
+					<span class="nt">&lt;c:otherwise&gt;</span>	// 아닐 경우 Next로 표시되고 현재 페이지 + 1인 페이지 출력
+						<span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"page-item"</span><span class="nt">&gt;&lt;a</span> <span class="na">class=</span><span class="s">"page-link"</span> <span class="na">href=</span><span class="s">"helpList.he?cpage=${ pi.currentPage+1 }"</span><span class="nt">&gt;</span>Next<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+					<span class="nt">&lt;/c:otherwise&gt;</span>
+				<span class="nt">&lt;/c:choose&gt;</span>
+            <span class="nt">&lt;/ul&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>![1](https://user-images.githubusercontent.com/93863500158005919-867d2c34-00f7-4d3d-9db8-d9f5782d60d4.JPG)
+![2](https://user-images.githubusercontent.com/93863500/158005959-fcbdf04f-4510-4fa1-a0eb-e97c25e0c310.JPG)
+</code></pre></div></div>
+
+<h4 id="출처">출처</h4>
+
+<ul>
+  <li><a href="https://mybatis.org/mybatis-3/getting-started.html">Mybatis Java API</a></li>
+  <li>내 프로젝트</li>
+</ul>
+:ET
